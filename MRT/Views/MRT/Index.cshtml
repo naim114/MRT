@@ -1,0 +1,58 @@
+﻿@model MRT.Models.User
+
+@{
+    ViewData["Title"] = "Log In";
+}
+
+<div class="container-fluid ps-md-0">
+    <div class="row g-0">
+        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+        <div class="col-md-8 col-lg-6">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-8 mx-auto">
+                            @if (ViewBag.ErrorMessage != null)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    @ViewBag.ErrorMessage
+                                </div>
+                            }
+
+                            @if (ViewBag.SuccessMessage != null)
+                            {
+                                <div class="alert alert-success" role="alert">
+                                    @ViewBag.SuccessMessage
+                                </div>
+                            }
+
+                            <h3 class="login-heading mb-4">Welcome to MRT Ticketing System</h3>
+
+                            <!-- Sign In Form -->
+                            <form asp-action="Login">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                                    <label asp-for="Email" for="floatingInput">Email address</label>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                                    <label asp-for="Password" for="floatingPassword">Password</label>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Sign in</button>
+                                    <div class="text-center">
+                                        <a class="small" asp-action="SignUp">Sign Up</a>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+﻿@model MRT.Models.User
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h3 class="mb-2">MRT Ticketing System</h3>
+
+<nav class="navbar navbar-expand-lg navbar-light mb-3" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" asp-action="Home" asp-route-userId="@Model.UserId">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Profile" asp-route-userId="@Model.UserId">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">My Tickets</a>
+                </li>
+                @if (Model.IsAdmin)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="ManageUsers">Manage Users</a>
+                    </li>
+                }
+            </ul>
+            <a class="text-danger my-2 my-sm-0" asp-action="Index">Log out</a>
+        </div>
+    </div>
+</nav>
+
+<h5>Welcome @Html.DisplayFor(x => x.Name)!</h5>

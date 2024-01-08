@@ -1,0 +1,75 @@
+﻿@model MRT.Models.User
+
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-xl-9 mx-auto">
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+            <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+                <div class="card-img-left d-none d-md-flex">
+                    <!-- Background image for card set in CSS -->
+                </div>
+                <div class="card-body p-4 p-sm-5">
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
+                    <form asp-action="SignUp">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" type="email" class="form-control" id="floatingInputEmail" placeholder="name@example.com" required autofocus>
+                            <label asp-for="Email" for="floatingInputEmail">Email address</label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" type="text" class="form-control" id="floatingInputName" placeholder="Ali bin Abu" required>
+                            <label asp-for="Name" for="floatingInputName">Name</label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="IdentityCard" type="text" class="form-control" id="floatingInputID" placeholder="012345-67-8901" required>
+                            <label asp-for="IdentityCard" for="floatingInputID">Identity Card/Passport No.</label>
+                            <span asp-validation-for="IdentityCard" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select asp-for="Type" class="form-select" aria-label="Default select example">
+                                <option selected value="">Normal</option>
+                                <option value="senior">Senior citizens (50% Discount)</option>
+                                <option value="disabled">Disabled (60% Discount)</option>
+                                <option value="students">Students (40% Discount)</option>
+                            </select>
+                            <label asp-for="Type">User Type</label>
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Password" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                            <label asp-for="Password" for="floatingPassword">Password</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        @* <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder="Confirm Password" required>
+                            <label for="floatingPasswordConfirm">Confirm Password</label>
+                        </div> *@
+
+                        <div class="d-grid mb-2">
+                            <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Register</button>
+                        </div>
+                    </form>
+                    <a class="d-block text-center mt-2 small" asp-action="Index">Have an account? Sign In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
