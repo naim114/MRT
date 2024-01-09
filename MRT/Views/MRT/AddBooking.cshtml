@@ -1,0 +1,1338 @@
+﻿@model MRT.Models.User
+
+@{
+    ViewData["Title"] = "Add Booking";
+}
+
+<h3 class="mb-2">MRT Ticketing System</h3>
+
+<nav class="navbar navbar-expand-lg navbar-light mb-3" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" asp-action="Home" asp-route-userId="@Model.UserId">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Profile" asp-route-userId="@Model.UserId">Profile</a>
+                </li>
+                @if (Model.IsAdmin)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="ManageUsers" asp-route-userId="@Model.UserId">Manage Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="ManageBookings" asp-route-userId="@Model.UserId">Manage Bookings</a>
+                    </li>
+                }
+            </ul>
+            <a class="text-danger my-2 my-sm-0" asp-action="Index">Log out</a>
+        </div>
+    </div>
+</nav>
+
+<h5>Make a Booking</h5>
+
+<img src="~/image/table.jpg" alt="table fare" style="width: 100%"/>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.SuccessMessage
+    </div>
+}
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">From Station</label>
+        <select id="selectFrom" class="form-select" required>
+            <option selected value="Sungai Buloh">Sungai Buloh</option>
+            <option value="Kampung Selamat">Kampung Selamat</option>
+            <option value="Kwasa Damansara">Kwasa Damansara</option>
+            <option value="Kwasa Sentral">Kwasa Sentral</option>
+            <option value="Kota Damansara">Kota Damansara </option>
+            <option value="Surian">Surian</option>
+            <option value="Mutiara Damansara">Mutiara Damansara</option>
+            <option value="Bandar Utama">Bandar Utama</option>
+            <option value="Taman Tun Dr Ismail">Taman Tun Dr Ismail</option>
+            <option value="Phileo Damansara">Phileo Damansara</option>
+            <option value="Pusat Bandar Damansara">Pusat Bandar Damansara</option>
+            <option value="Semantan">Semantan</option>
+            <option value="Muzium Negara">Muzium Negara</option>
+            <option value="Pasar Seni">Pasar Seni</option>
+            <option value="Merdeka">Merdeka</option>
+            <option value="Bukit">Bukit Bintang</option>
+            <option value="Tun Razak Exchange">Tun Razak Exchange</option>
+            <option value="Cochrane">Cochrane</option>
+            <option value="Maluri">Maluri</option>
+            <option value="Taman Pertama">Taman Pertama</option>
+            <option value="Taman Midah">Taman Midah</option>
+            <option value="Taman Mutiara">Taman Mutiara</option>
+            <option value="Taman Connaught">Taman Connaught</option>
+            <option value="Taman Suntex">Taman Suntex</option>
+            <option value="Sri Raya">Sri Raya</option>
+            <option value="Bandar Tun Hussein Onn">Bandar Tun Hussein Onn</option>
+            <option value="Batu Sebelas Cheras">Batu Sebelas Cheras</option>
+            <option value="Bukit Dukung">Bukit Dukung</option>
+            <option value="Sungai Jernih">Sungai Jernih</option>
+            <option value="Stadium Kajang">Stadium Kajang </option>
+            <option value="Kajang">Kajang</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">To Station</label>
+        <select id="selectTo" class="form-select" required>
+            <option selected value="Sungai Buloh">Sungai Buloh</option>
+            <option value="Kampung Selamat">Kampung Selamat</option>
+            <option value="Kwasa Damansara">Kwasa Damansara</option>
+            <option value="Kwasa Sentral">Kwasa Sentral</option>
+            <option value="Kota Damansara">Kota Damansara </option>
+            <option value="Surian">Surian</option>
+            <option value="Mutiara Damansara">Mutiara Damansara</option>
+            <option value="Bandar Utama">Bandar Utama</option>
+            <option value="Taman Tun Dr Ismail">Taman Tun Dr Ismail</option>
+            <option value="Phileo Damansara">Phileo Damansara</option>
+            <option value="Pusat Bandar Damansara">Pusat Bandar Damansara</option>
+            <option value="Semantan">Semantan</option>
+            <option value="Muzium Negara">Muzium Negara</option>
+            <option value="Pasar Seni">Pasar Seni</option>
+            <option value="Merdeka">Merdeka</option>
+            <option value="Bukit">Bukit Bintang</option>
+            <option value="Tun Razak Exchange">Tun Razak Exchange</option>
+            <option value="Cochrane">Cochrane</option>
+            <option value="Maluri">Maluri</option>
+            <option value="Taman Pertama">Taman Pertama</option>
+            <option value="Taman Midah">Taman Midah</option>
+            <option value="Taman Mutiara">Taman Mutiara</option>
+            <option value="Taman Connaught">Taman Connaught</option>
+            <option value="Taman Suntex">Taman Suntex</option>
+            <option value="Sri Raya">Sri Raya</option>
+            <option value="Bandar Tun Hussein Onn">Bandar Tun Hussein Onn</option>
+            <option value="Batu Sebelas Cheras">Batu Sebelas Cheras</option>
+            <option value="Bukit Dukung">Bukit Dukung</option>
+            <option value="Sungai Jernih">Sungai Jernih</option>
+            <option value="Stadium Kajang">Stadium Kajang </option>
+            <option value="Kajang">Kajang</option>
+        </select>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Ticket Type</label>
+        <select id="selectTicketType" class="form-select" required>
+            <option selected value="true">One Way</option>
+            <option value="false">Returning</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Price Before Discount (RM)</label>
+        <input id="inputPrice" type="number" class="form-control" readonly>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Discount (%)</label>
+        <input value="" id="inputDiscount" type="number" class="form-control" readonly>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Total Price (RM)</label>
+        <input id="inputTotalPrice" type="number" class="form-control" readonly>
+    </div>
+</div>
+
+<button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log("Hello");
+
+        // from and to select input station
+        var from = "Sungai Buloh";
+        var to = "Sungai Buloh";
+
+        let selectFrom = document.getElementById("selectFrom");
+        let selectTo = document.getElementById("selectTo");
+
+        selectFrom.value = from;
+        selectTo.value = to;
+
+        // ticket type select input
+        var isOneWay = true;
+        let selectTicketType = document.getElementById("selectTicketType");
+
+        // price input
+        var price = 0.8;
+        let inputPrice = document.getElementById("inputPrice");
+        inputPrice.value = price;
+
+        // discount input
+        var discountPrice = 0.0;
+        let inputDiscount = document.getElementById("inputDiscount");
+        inputDiscount.value = discountPrice;
+
+        // total price input
+        var totalPrice = 0.0;
+        let inputTotalPrice = document.getElementById("inputTotalPrice");
+
+        // fare calculation function
+        function calculateFare(from, to){
+            // Fare Price
+            var fare = [
+                {
+                    "From": "Sungai Buloh",
+                    "To": {
+                        "Sungai Buloh": 0.8,
+                        "Kampung Selamat": 1.2,
+                        "Kwasa Damansara": 1.8,
+                        "Kwasa Sentral": 2,
+                        "Kota Damansara": 2.6,
+                        "Surian": 2.7,
+                        "Mutiara Damansara": 3.1,
+                        "Bandar Utama": 3.3,
+                        "Taman Tun Dr Ismail": 3.2,
+                        "Phileo Damansara": 3.5,
+                        "Pusat Bandar Damansara": 3.3,
+                        "Semantan": 3.4,
+                        "Muzium Negara": 3.1,
+                        "Pasar Seni": 3.2,
+                        "Merdeka": 3.3,
+                        "Bukit Bintang": 3.4,
+                        "Tun Razak Exchange": 3.5,
+                        "Cochrane": 3.60,
+                        "Maluri": 3.70,
+                        "Taman Pertama": 3.90,
+                        "Taman Midah": 4.00,
+                        "Taman Mutiara": 4.1,
+                        "Taman Connaught": 4.30,
+                        "Taman Suntex": 4.50,
+                        "Sri Raya": 4.60,
+                        "Bandar Tun Hussein Onn": 4.80,
+                        "Batu Sebelas Cheras": 4.80,
+                        "Bukit Dukung": 5.00,
+                        "Sungai Jernih": 5.30,
+                        "Stadium Kajang": 5.40,
+                        "Kajang": 5.5
+                    }
+                },
+                {
+                    "From": "Kampung Selamat",
+                    "To": {
+                        "Sungai Buloh": 1.2,
+                        "Kampung Selamat": 0.8,
+                        "Kwasa Damansara": 1.5,
+                        "Kwasa Sentral": 1.8,
+                        "Kota Damansara": 2.3,
+                        "Surian": 2.7,
+                        "Mutiara Damansara": 2.8,
+                        "Bandar Utama": 3.1,
+                        "Taman Tun Dr Ismail": 3.4,
+                        "Phileo Damansara": 3.3,
+                        "Pusat Bandar Damansara": 3.7,
+                        "Semantan": 3.3,
+                        "Muzium Negara": 3.7,
+                        "Pasar Seni": 3.8,
+                        "Merdeka": 3.2,
+                        "Bukit Bintang": 3.3,
+                        "Tun Razak Exchange": 3.4,
+                        "Cochrane": 3.5,
+                        "Maluri": 3.6,
+                        "Taman Pertama": 3.8,
+                        "Taman Midah": 3.9,
+                        "Taman Mutiara": 4,
+                        "Taman Connaught": 4.2,
+                        "Taman Suntex": 4.4,
+                        "Sri Raya": 4.5,
+                        "Bandar Tun Hussein Onn": 4.6,
+                        "Batu Sebelas Cheras": 4.7,
+                        "Bukit Dukung": 4.9,
+                        "Sungai Jernih": 5.2,
+                        "Stadium Kajang": 5.2,
+                        "Kajang": 5.4
+                    }
+                },
+                {
+                    "From": "Kwasa Damansara",
+                    "To": {
+                        "Sungai Buloh": 1.8,
+                        "Kampung Selamat": 1.5,
+                        "Kwasa Damansara": 0.8,
+                        "Kwasa Sentral": 1.1,
+                        "Kota Damansara": 1.8,
+                        "Surian": 2.1,
+                        "Mutiara Damansara": 2.6,
+                        "Bandar Utama": 2.6,
+                        "Taman Tun Dr Ismail": 3,
+                        "Phileo Damansara": 3.2,
+                        "Pusat Bandar Damansara": 3.3,
+                        "Semantan": 3.5,
+                        "Muzium Negara": 3.4,
+                        "Pasar Seni": 3.5,
+                        "Merdeka": 3.6,
+                        "Bukit Bintang": 3.7,
+                        "Tun Razak Exchange": 3.2,
+                        "Cochrane": 3.3,
+                        "Maluri": 3.4,
+                        "Taman Pertama": 3.5,
+                        "Taman Midah": 3.6,
+                        "Taman Mutiara": 3.8,
+                        "Taman Connaught": 3.9,
+                        "Taman Suntex": 4.1,
+                        "Sri Raya": 4.3,
+                        "Bandar Tun Hussein Onn": 4.4,
+                        "Batu Sebelas Cheras": 4.5,
+                        "Bukit Dukung": 4.6,
+                        "Sungai Jernih": 4.9,
+                        "Stadium Kajang": 5,
+                        "Kajang": 5.1
+                    }
+                },
+                {
+                    "From": "Kwasa Sentral",
+                    "To": {
+                        "Sungai Buloh": 2,
+                        "Kampung Selamat": 1.8,
+                        "Kwasa Damansara": 1.1,
+                        "Kwasa Sentral": 0.8,
+                        "Kota Damansara": 1.6,
+                        "Surian": 1.9,
+                        "Mutiara Damansara": 2.3,
+                        "Bandar Utama": 2.6,
+                        "Taman Tun Dr Ismail": 2.8,
+                        "Phileo Damansara": 3,
+                        "Pusat Bandar Damansara": 3.1,
+                        "Semantan": 3.3,
+                        "Muzium Negara": 3.8,
+                        "Pasar Seni": 3.4,
+                        "Merdeka": 3.4,
+                        "Bukit Bintang": 3.6,
+                        "Tun Razak Exchange": 3.8,
+                        "Cochrane": 3.2,
+                        "Maluri": 3.3,
+                        "Taman Pertama": 3.4,
+                        "Taman Midah": 3.5,
+                        "Taman Mutiara": 3.7,
+                        "Taman Connaught": 3.8,
+                        "Taman Suntex": 4,
+                        "Sri Raya": 4.1,
+                        "Bandar Tun Hussein Onn": 4.3,
+                        "Batu Sebelas Cheras": 4.4,
+                        "Bukit Dukung": 4.5,
+                        "Sungai Jernih": 4.8,
+                        "Stadium Kajang": 4.9,
+                        "Kajang": 5
+                    }
+                },
+                {
+                    "From": "Kota Damansara",
+                    "To": {
+                        "Sungai Buloh": 2.6,
+                        "Kampung Selamat": 2.3,
+                        "Kwasa Damansara": 1.8,
+                        "Kwasa Sentral": 1.6,
+                        "Kota Damansara": 0.8,
+                        "Surian": 1.3,
+                        "Mutiara Damansara": 1.8,
+                        "Bandar Utama": 2,
+                        "Taman Tun Dr Ismail": 2.4,
+                        "Phileo Damansara": 2.8,
+                        "Pusat Bandar Damansara": 3,
+                        "Semantan": 3.2,
+                        "Muzium Negara": 3.3,
+                        "Pasar Seni": 3.5,
+                        "Merdeka": 3.6,
+                        "Bukit Bintang": 3.2,
+                        "Tun Razak Exchange": 3.4,
+                        "Cochrane": 3.6,
+                        "Maluri": 3.7,
+                        "Taman Pertama": 3.2,
+                        "Taman Midah": 3.2,
+                        "Taman Mutiara": 3.4,
+                        "Taman Connaught": 3.5,
+                        "Taman Suntex": 3.7,
+                        "Sri Raya": 3.9,
+                        "Bandar Tun Hussein Onn": 4,
+                        "Batu Sebelas Cheras": 4.1,
+                        "Bukit Dukung": 4.3,
+                        "Sungai Jernih": 4.6,
+                        "Stadium Kajang": 4.6,
+                        "Kajang": 4.8
+                    }
+                },
+                {
+                    "From": "Surian",
+                    "To": {
+                        "Sungai Buloh": 2.7,
+                        "Kampung Selamat": 2.7,
+                        "Kwasa Damansara": 2.1,
+                        "Kwasa Sentral": 1.9,
+                        "Kota Damansara": 1.3,
+                        "Surian": 0.8,
+                        "Mutiara Damansara": 1.3,
+                        "Bandar Utama": 1.7,
+                        "Taman Tun Dr Ismail": 2,
+                        "Phileo Damansara": 2.4,
+                        "Pusat Bandar Damansara": 2.7,
+                        "Semantan": 2.9,
+                        "Muzium Negara": 3.1,
+                        "Pasar Seni": 3.3,
+                        "Merdeka": 3.4,
+                        "Bukit Bintang": 3.6,
+                        "Tun Razak Exchange": 3.8,
+                        "Cochrane": 3.4,
+                        "Maluri": 3.5,
+                        "Taman Pertama": 3.7,
+                        "Taman Midah": 3.8,
+                        "Taman Mutiara": 3.2,
+                        "Taman Connaught": 3.4,
+                        "Taman Suntex": 3.6,
+                        "Sri Raya": 3.7,
+                        "Bandar Tun Hussein Onn": 3.9,
+                        "Batu Sebelas Cheras": 4,
+                        "Bukit Dukung": 4.1,
+                        "Sungai Jernih": 4.4,
+                        "Stadium Kajang": 4.5,
+                        "Kajang": 4.6
+                    }
+                },
+                {
+                    "From": "Mutiara Damansara",
+                    "To": {
+                        "Sungai Buloh": 3.1,
+                        "Kampung Selamat": 2.8,
+                        "Kwasa Damansara": 2.6,
+                        "Kwasa Sentral": 2.3,
+                        "Kota Damansara": 1.8,
+                        "Surian": 1.3,
+                        "Mutiara Damansara": 0.8,
+                        "Bandar Utama": 1.3,
+                        "Taman Tun Dr Ismail": 1.7,
+                        "Phileo Damansara": 2,
+                        "Pusat Bandar Damansara": 2.6,
+                        "Semantan": 2.8,
+                        "Muzium Negara": 3.2,
+                        "Pasar Seni": 3.4,
+                        "Merdeka": 3.1,
+                        "Bukit Bintang": 3.3,
+                        "Tun Razak Exchange": 3.5,
+                        "Cochrane": 3.7,
+                        "Maluri": 3.2,
+                        "Taman Pertama": 3.5,
+                        "Taman Midah": 3.6,
+                        "Taman Mutiara": 3.8,
+                        "Taman Connaught": 3.2,
+                        "Taman Suntex": 3.4,
+                        "Sri Raya": 3.6,
+                        "Bandar Tun Hussein Onn": 3.7,
+                        "Batu Sebelas Cheras": 3.8,
+                        "Bukit Dukung": 3.9,
+                        "Sungai Jernih": 4.2,
+                        "Stadium Kajang": 4.3,
+                        "Kajang": 4.4
+                    }
+                },
+                {
+                    "From": "Bandar Utama",
+                    "To": {
+                        "Sungai Buloh": 3.3,
+                        "Kampung Selamat": 3.1,
+                        "Kwasa Damansara": 2.6,
+                        "Kwasa Sentral": 2.6,
+                        "Kota Damansara": 2,
+                        "Surian": 1.7,
+                        "Mutiara Damansara": 1.3,
+                        "Bandar Utama": 0.8,
+                        "Taman Tun Dr Ismail": 1.3,
+                        "Phileo Damansara": 1.7,
+                        "Pusat Bandar Damansara": 2.2,
+                        "Semantan": 2.5,
+                        "Muzium Negara": 2.9,
+                        "Pasar Seni": 3.1,
+                        "Merdeka": 3.2,
+                        "Bukit Bintang": 3.4,
+                        "Tun Razak Exchange": 3.2,
+                        "Cochrane": 3.4,
+                        "Maluri": 3.6,
+                        "Taman Pertama": 3.3,
+                        "Taman Midah": 3.4,
+                        "Taman Mutiara": 3.6,
+                        "Taman Connaught": 3.8,
+                        "Taman Suntex": 3.3,
+                        "Sri Raya": 3.4,
+                        "Bandar Tun Hussein Onn": 3.6,
+                        "Batu Sebelas Cheras": 3.6,
+                        "Bukit Dukung": 3.8,
+                        "Sungai Jernih": 4.1,
+                        "Stadium Kajang": 4.2,
+                        "Kajang": 4.3
+                    }
+                },
+                {
+                    "From": "Taman Tun Dr Ismail",
+                    "To": {
+                        "Sungai Buloh": 3.2,
+                        "Kampung Selamat": 3.4,
+                        "Kwasa Damansara": 3,
+                        "Kwasa Sentral": 2.8,
+                        "Kota Damansara": 2.4,
+                        "Surian": 2,
+                        "Mutiara Damansara": 1.7,
+                        "Bandar Utama": 1.3,
+                        "Taman Tun Dr Ismail": 0.8,
+                        "Phileo Damansara": 1.2,
+                        "Pusat Bandar Damansara": 1.8,
+                        "Semantan": 2.1,
+                        "Muzium Negara": 2.8,
+                        "Pasar Seni": 2.8,
+                        "Merdeka": 2.9,
+                        "Bukit Bintang": 3.1,
+                        "Tun Razak Exchange": 3.4,
+                        "Cochrane": 3.1,
+                        "Maluri": 3.3,
+                        "Taman Pertama": 3.6,
+                        "Taman Midah": 3.7,
+                        "Taman Mutiara": 3.4,
+                        "Taman Connaught": 3.6,
+                        "Taman Suntex": 3.8,
+                        "Sri Raya": 3.2,
+                        "Bandar Tun Hussein Onn": 3.4,
+                        "Batu Sebelas Cheras": 3.5,
+                        "Bukit Dukung": 3.6,
+                        "Sungai Jernih": 3.9,
+                        "Stadium Kajang": 4,
+                        "Kajang": 4.1
+                    }
+                },
+                {
+                    "From": "Phileo Damansara",
+                    "To": {
+                        "Sungai Buloh": 3.5,
+                        "Kampung Selamat": 3.3,
+                        "Kwasa Damansara": 3.2,
+                        "Kwasa Sentral": 3,
+                        "Kota Damansara": 2.8,
+                        "Surian": 2.4,
+                        "Mutiara Damansara": 2,
+                        "Bandar Utama": 1.7,
+                        "Taman Tun Dr Ismail": 1.2,
+                        "Phileo Damansara": 0.8,
+                        "Pusat Bandar Damansara": 1.6,
+                        "Semantan": 1.8,
+                        "Muzium Negara": 2.5,
+                        "Pasar Seni": 2.7,
+                        "Merdeka": 2.6,
+                        "Bukit Bintang": 2.8,
+                        "Tun Razak Exchange": 3.1,
+                        "Cochrane": 3.3,
+                        "Maluri": 3.1,
+                        "Taman Pertama": 3.3,
+                        "Taman Midah": 3.5,
+                        "Taman Mutiara": 3.7,
+                        "Taman Connaught": 3.4,
+                        "Taman Suntex": 3.6,
+                        "Sri Raya": 3.8,
+                        "Bandar Tun Hussein Onn": 3.2,
+                        "Batu Sebelas Cheras": 3.3,
+                        "Bukit Dukung": 3.5,
+                        "Sungai Jernih": 3.8,
+                        "Stadium Kajang": 3.9,
+                        "Kajang": 4
+                    }
+                },
+                {
+                    "From": "Pusat Bandar Damansara",
+                    "To": {
+                        "Sungai Buloh": 3.3,
+                        "Kampung Selamat": 3.7,
+                        "Kwasa Damansara": 3.3,
+                        "Kwasa Sentral": 3.1,
+                        "Kota Damansara": 3,
+                        "Surian": 2.7,
+                        "Mutiara Damansara": 2.6,
+                        "Bandar Utama": 2.2,
+                        "Taman Tun Dr Ismail": 1.8,
+                        "Phileo Damansara": 1.6,
+                        "Pusat Bandar Damansara": 0.8,
+                        "Semantan": 1.1,
+                        "Muzium Negara": 1.8,
+                        "Pasar Seni": 2.1,
+                        "Merdeka": 2.2,
+                        "Bukit Bintang": 2.5,
+                        "Tun Razak Exchange": 2.8,
+                        "Cochrane": 2.8,
+                        "Maluri": 3,
+                        "Taman Pertama": 3.3,
+                        "Taman Midah": 3.5,
+                        "Taman Mutiara": 3.3,
+                        "Taman Connaught": 3.5,
+                        "Taman Suntex": 3.3,
+                        "Sri Raya": 3.5,
+                        "Bandar Tun Hussein Onn": 3.7,
+                        "Batu Sebelas Cheras": 3.8,
+                        "Bukit Dukung": 3.2,
+                        "Sungai Jernih": 3.5,
+                        "Stadium Kajang": 3.6,
+                        "Kajang": 3.7
+                    }
+                },
+                {
+                    "From": "Semantan",
+                    "To": {
+                        "Sungai Buloh": 3.4,
+                        "Kampung Selamat": 3.3,
+                        "Kwasa Damansara": 3.5,
+                        "Kwasa Sentral": 3.3,
+                        "Kota Damansara": 3.2,
+                        "Surian": 2.9,
+                        "Mutiara Damansara": 2.8,
+                        "Bandar Utama": 2.5,
+                        "Taman Tun Dr Ismail": 2.1,
+                        "Phileo Damansara": 1.8,
+                        "Pusat Bandar Damansara": 1.1,
+                        "Semantan": 0.8,
+                        "Muzium Negara": 1.7,
+                        "Pasar Seni": 1.9,
+                        "Merdeka": 2,
+                        "Bukit Bintang": 2.3,
+                        "Tun Razak Exchange": 2.6,
+                        "Cochrane": 2.6,
+                        "Maluri": 2.8,
+                        "Taman Pertama": 3.1,
+                        "Taman Midah": 3.3,
+                        "Taman Mutiara": 3.1,
+                        "Taman Connaught": 3.4,
+                        "Taman Suntex": 3.7,
+                        "Sri Raya": 3.3,
+                        "Bandar Tun Hussein Onn": 3.5,
+                        "Batu Sebelas Cheras": 3.6,
+                        "Bukit Dukung": 3.1,
+                        "Sungai Jernih": 3.4,
+                        "Stadium Kajang": 3.5,
+                        "Kajang": 3.6
+                    }
+                },
+                {
+                    "From": "Muzium Negara",
+                    "To": {
+                        "Sungai Buloh": 3.1,
+                        "Kampung Selamat": 3.7,
+                        "Kwasa Damansara": 3.4,
+                        "Kwasa Sentral": 3.8,
+                        "Kota Damansara": 3.3,
+                        "Surian": 3.1,
+                        "Mutiara Damansara": 3.2,
+                        "Bandar Utama": 2.9,
+                        "Taman Tun Dr Ismail": 2.8,
+                        "Phileo Damansara": 2.5,
+                        "Pusat Bandar Damansara": 1.8,
+                        "Semantan": 1.7,
+                        "Muzium Negara": 0.8,
+                        "Pasar Seni": 1.2,
+                        "Merdeka": 1.3,
+                        "Bukit Bintang": 1.6,
+                        "Tun Razak Exchange": 1.9,
+                        "Cochrane": 2.1,
+                        "Maluri": 2.3,
+                        "Taman Pertama": 2.7,
+                        "Taman Midah": 2.7,
+                        "Taman Mutiara": 3,
+                        "Taman Connaught": 3.3,
+                        "Taman Suntex": 3.2,
+                        "Sri Raya": 3.4,
+                        "Bandar Tun Hussein Onn": 3.7,
+                        "Batu Sebelas Cheras": 3.2,
+                        "Bukit Dukung": 3.5,
+                        "Sungai Jernih": 3.1,
+                        "Stadium Kajang": 3.2,
+                        "Kajang": 3.3
+                    }
+                },
+                {
+                    "From": "Pasar Seni",
+                    "To": {
+                        "Sungai Buloh": 3.2,
+                        "Kampung Selamat": 3.8,
+                        "Kwasa Damansara": 3.5,
+                        "Kwasa Sentral": 3.4,
+                        "Kota Damansara": 3.5,
+                        "Surian": 3.3,
+                        "Mutiara Damansara": 3.4,
+                        "Bandar Utama": 3.1,
+                        "Taman Tun Dr Ismail": 2.8,
+                        "Phileo Damansara": 2.7,
+                        "Pusat Bandar Damansara": 2.1,
+                        "Semantan": 1.9,
+                        "Muzium Negara": 1.2,
+                        "Pasar Seni": 0.8,
+                        "Merdeka": 1,
+                        "Bukit Bintang": 1.3,
+                        "Tun Razak Exchange": 1.7,
+                        "Cochrane": 1.8,
+                        "Maluri": 2.1,
+                        "Taman Pertama": 2.5,
+                        "Taman Midah": 2.7,
+                        "Taman Mutiara": 2.8,
+                        "Taman Connaught": 3,
+                        "Taman Suntex": 3.5,
+                        "Sri Raya": 3.3,
+                        "Bandar Tun Hussein Onn": 3.5,
+                        "Batu Sebelas Cheras": 3.6,
+                        "Bukit Dukung": 3.3,
+                        "Sungai Jernih": 3.7,
+                        "Stadium Kajang": 3.8,
+                        "Kajang": 3.2
+                    }
+                },
+                {
+                    "From": "Merdeka",
+                    "To": {
+                        "Sungai Buloh": 3.3,
+                        "Kampung Selamat": 3.2,
+                        "Kwasa Damansara": 3.6,
+                        "Kwasa Sentral": 3.4,
+                        "Kota Damansara": 3.6,
+                        "Surian": 3.4,
+                        "Mutiara Damansara": 3.1,
+                        "Bandar Utama": 3.2,
+                        "Taman Tun Dr Ismail": 2.9,
+                        "Phileo Damansara": 2.6,
+                        "Pusat Bandar Damansara": 2.2,
+                        "Semantan": 2,
+                        "Muzium Negara": 1.3,
+                        "Pasar Seni": 1,
+                        "Merdeka": 0.8,
+                        "Bukit Bintang": 1.1,
+                        "Tun Razak Exchange": 1.5,
+                        "Cochrane": 1.8,
+                        "Maluri": 1.9,
+                        "Taman Pertama": 2.3,
+                        "Taman Midah": 2.5,
+                        "Taman Mutiara": 2.6,
+                        "Taman Connaught": 2.9,
+                        "Taman Suntex": 3.3,
+                        "Sri Raya": 3.2,
+                        "Bandar Tun Hussein Onn": 3.4,
+                        "Batu Sebelas Cheras": 3.5,
+                        "Bukit Dukung": 3.8,
+                        "Sungai Jernih": 3.6,
+                        "Stadium Kajang": 3.7,
+                        "Kajang": 3.2
+                    }
+                },
+                {
+                    "From": "Bukit Bintang",
+                    "To": {
+                        "Sungai Buloh": 3.4,
+                        "Kampung Selamat": 3.3,
+                        "Kwasa Damansara": 3.7,
+                        "Kwasa Sentral": 3.6,
+                        "Kota Damansara": 3.2,
+                        "Surian": 3.6,
+                        "Mutiara Damansara": 3.3,
+                        "Bandar Utama": 3.4,
+                        "Taman Tun Dr Ismail": 3.1,
+                        "Phileo Damansara": 2.8,
+                        "Pusat Bandar Damansara": 2.5,
+                        "Semantan": 2.3,
+                        "Muzium Negara": 1.6,
+                        "Pasar Seni": 1.3,
+                        "Merdeka": 1.1,
+                        "Bukit Bintang": 0.8,
+                        "Tun Razak Exchange": 1.2,
+                        "Cochrane": 1.5,
+                        "Maluri": 1.8,
+                        "Taman Pertama": 2.1,
+                        "Taman Midah": 2.3,
+                        "Taman Mutiara": 2.6,
+                        "Taman Connaught": 2.7,
+                        "Taman Suntex": 3.1,
+                        "Sri Raya": 3.4,
+                        "Bandar Tun Hussein Onn": 3.2,
+                        "Batu Sebelas Cheras": 3.3,
+                        "Bukit Dukung": 3.6,
+                        "Sungai Jernih": 3.5,
+                        "Stadium Kajang": 3.6,
+                        "Kajang": 3.8
+                    }
+                },
+                {
+                    "From": "Tun Razak Exchange",
+                    "To": {
+                        "Sungai Buloh": 3.5,
+                        "Kampung Selamat": 3.4,
+                        "Kwasa Damansara": 3.2,
+                        "Kwasa Sentral": 3.8,
+                        "Kota Damansara": 3.4,
+                        "Surian": 3.8,
+                        "Mutiara Damansara": 3.5,
+                        "Bandar Utama": 3.2,
+                        "Taman Tun Dr Ismail": 3.4,
+                        "Phileo Damansara": 3.1,
+                        "Pusat Bandar Damansara": 2.8,
+                        "Semantan": 2.6,
+                        "Muzium Negara": 1.9,
+                        "Pasar Seni": 1.7,
+                        "Merdeka": 1.5,
+                        "Bukit Bintang": 1.2,
+                        "Tun Razak Exchange": 0.8,
+                        "Cochrane": 1.1,
+                        "Maluri": 1.4,
+                        "Taman Pertama": 1.8,
+                        "Taman Midah": 1.9,
+                        "Taman Mutiara": 2.3,
+                        "Taman Connaught": 2.7,
+                        "Taman Suntex": 2.9,
+                        "Sri Raya": 3.1,
+                        "Bandar Tun Hussein Onn": 3.4,
+                        "Batu Sebelas Cheras": 3.1,
+                        "Bukit Dukung": 3.4,
+                        "Sungai Jernih": 3.3,
+                        "Stadium Kajang": 3.4,
+                        "Kajang": 3.6
+                    }
+                },
+                {
+                    "From": "Cochrane",
+                    "To": {
+                        "Sungai Buloh": 3.6,
+                        "Kampung Selamat": 3.5,
+                        "Kwasa Damansara": 3.3,
+                        "Kwasa Sentral": 3.2,
+                        "Kota Damansara": 3.6,
+                        "Surian": 3.4,
+                        "Mutiara Damansara": 3.7,
+                        "Bandar Utama": 3.4,
+                        "Taman Tun Dr Ismail": 3.1,
+                        "Phileo Damansara": 3.3,
+                        "Pusat Bandar Damansara": 2.8,
+                        "Semantan": 2.6,
+                        "Muzium Negara": 2.1,
+                        "Pasar Seni": 1.8,
+                        "Merdeka": 1.8,
+                        "Bukit Bintang": 1.5,
+                        "Tun Razak Exchange": 1.1,
+                        "Cochrane": 0.8,
+                        "Maluri": 1.1,
+                        "Taman Pertama": 1.5,
+                        "Taman Midah": 1.8,
+                        "Taman Mutiara": 2.1,
+                        "Taman Connaught": 2.4,
+                        "Taman Suntex": 2.6,
+                        "Sri Raya": 2.9,
+                        "Bandar Tun Hussein Onn": 3.2,
+                        "Batu Sebelas Cheras": 3.3,
+                        "Bukit Dukung": 3.2,
+                        "Sungai Jernih": 3.7,
+                        "Stadium Kajang": 3.3,
+                        "Kajang": 3.4
+                    }
+                },
+                {
+                    "From": "Maluri",
+                    "To": {
+                        "Sungai Buloh": 3.7,
+                        "Kampung Selamat": 3.6,
+                        "Kwasa Damansara": 3.4,
+                        "Kwasa Sentral": 3.3,
+                        "Kota Damansara": 3.7,
+                        "Surian": 3.5,
+                        "Mutiara Damansara": 3.2,
+                        "Bandar Utama": 3.6,
+                        "Taman Tun Dr Ismail": 3.3,
+                        "Phileo Damansara": 3.1,
+                        "Pusat Bandar Damansara": 3,
+                        "Semantan": 2.8,
+                        "Muzium Negara": 2.3,
+                        "Pasar Seni": 2.1,
+                        "Merdeka": 1.9,
+                        "Bukit Bintang": 1.8,
+                        "Tun Razak Exchange": 1.4,
+                        "Cochrane": 1.1,
+                        "Maluri": 0.8,
+                        "Taman Pertama": 1.3,
+                        "Taman Midah": 1.5,
+                        "Taman Mutiara": 1.8,
+                        "Taman Connaught": 2.2,
+                        "Taman Suntex": 2.7,
+                        "Sri Raya": 2.7,
+                        "Bandar Tun Hussein Onn": 3,
+                        "Batu Sebelas Cheras": 3.2,
+                        "Bukit Dukung": 3.1,
+                        "Sungai Jernih": 3.6,
+                        "Stadium Kajang": 3.7,
+                        "Kajang": 3.3
+                    }
+                },
+                {
+                    "From": "Taman Pertama",
+                    "To": {
+                        "Sungai Buloh": 3.9,
+                        "Kampung Selamat": 3.8,
+                        "Kwasa Damansara": 3.5,
+                        "Kwasa Sentral": 3.4,
+                        "Kota Damansara": 3.2,
+                        "Surian": 3.7,
+                        "Mutiara Damansara": 3.5,
+                        "Bandar Utama": 3.3,
+                        "Taman Tun Dr Ismail": 3.6,
+                        "Phileo Damansara": 3.3,
+                        "Pusat Bandar Damansara": 3.3,
+                        "Semantan": 3.1,
+                        "Muzium Negara": 2.7,
+                        "Pasar Seni": 2.5,
+                        "Merdeka": 2.3,
+                        "Bukit Bintang": 2.1,
+                        "Tun Razak Exchange": 1.8,
+                        "Cochrane": 1.5,
+                        "Maluri": 1.3,
+                        "Taman Pertama": 0.8,
+                        "Taman Midah": 1.1,
+                        "Taman Mutiara": 1.5,
+                        "Taman Connaught": 1.8,
+                        "Taman Suntex": 2.3,
+                        "Sri Raya": 2.6,
+                        "Bandar Tun Hussein Onn": 2.7,
+                        "Batu Sebelas Cheras": 2.8,
+                        "Bukit Dukung": 3.2,
+                        "Sungai Jernih": 3.3,
+                        "Stadium Kajang": 3.4,
+                        "Kajang": 3.6
+                    }
+                },
+                {
+                    "From": "Taman Midah",
+                    "To": {
+                        "Sungai Buloh": 4,
+                        "Kampung Selamat": 3.9,
+                        "Kwasa Damansara": 3.6,
+                        "Kwasa Sentral": 3.5,
+                        "Kota Damansara": 3.2,
+                        "Surian": 3.8,
+                        "Mutiara Damansara": 3.6,
+                        "Bandar Utama": 3.4,
+                        "Taman Tun Dr Ismail": 3.7,
+                        "Phileo Damansara": 3.5,
+                        "Pusat Bandar Damansara": 3.5,
+                        "Semantan": 3.3,
+                        "Muzium Negara": 2.7,
+                        "Pasar Seni": 2.7,
+                        "Merdeka": 2.5,
+                        "Bukit Bintang": 2.3,
+                        "Tun Razak Exchange": 1.9,
+                        "Cochrane": 1.8,
+                        "Maluri": 1.5,
+                        "Taman Pertama": 1.1,
+                        "Taman Midah": 0.8,
+                        "Taman Mutiara": 1.3,
+                        "Taman Connaught": 1.7,
+                        "Taman Suntex": 2.1,
+                        "Sri Raya": 2.4,
+                        "Bandar Tun Hussein Onn": 2.8,
+                        "Batu Sebelas Cheras": 2.7,
+                        "Bukit Dukung": 3,
+                        "Sungai Jernih": 3.1,
+                        "Stadium Kajang": 3.3,
+                        "Kajang": 3.5
+                    }
+                },
+                {
+                    "From": "Taman Mutiara",
+                    "To": {
+                        "Sungai Buloh": 4.1,
+                        "Kampung Selamat": 4,
+                        "Kwasa Damansara": 3.8,
+                        "Kwasa Sentral": 3.7,
+                        "Kota Damansara": 3.4,
+                        "Surian": 3.2,
+                        "Mutiara Damansara": 3.8,
+                        "Bandar Utama": 3.6,
+                        "Taman Tun Dr Ismail": 3.4,
+                        "Phileo Damansara": 3.7,
+                        "Pusat Bandar Damansara": 3.3,
+                        "Semantan": 3.1,
+                        "Muzium Negara": 3,
+                        "Pasar Seni": 2.8,
+                        "Merdeka": 2.6,
+                        "Bukit Bintang": 2.6,
+                        "Tun Razak Exchange": 2.3,
+                        "Cochrane": 2.1,
+                        "Maluri": 1.8,
+                        "Taman Pertama": 1.5,
+                        "Taman Midah": 1.3,
+                        "Taman Mutiara": 0.8,
+                        "Taman Connaught": 1.2,
+                        "Taman Suntex": 1.8,
+                        "Sri Raya": 2,
+                        "Bandar Tun Hussein Onn": 2.4,
+                        "Batu Sebelas Cheras": 2.6,
+                        "Bukit Dukung": 2.7,
+                        "Sungai Jernih": 3.3,
+                        "Stadium Kajang": 3.4,
+                        "Kajang": 3.2
+                    }
+                },
+                {
+                    "From": "Taman Connaught",
+                    "To": {
+                        "Sungai Buloh": 4.3,
+                        "Kampung Selamat": 4.2,
+                        "Kwasa Damansara": 3.9,
+                        "Kwasa Sentral": 3.8,
+                        "Kota Damansara": 3.5,
+                        "Surian": 3.4,
+                        "Mutiara Damansara": 3.2,
+                        "Bandar Utama": 3.8,
+                        "Taman Tun Dr Ismail": 3.6,
+                        "Phileo Damansara": 3.4,
+                        "Pusat Bandar Damansara": 3.5,
+                        "Semantan": 3.4,
+                        "Muzium Negara": 3.3,
+                        "Pasar Seni": 3,
+                        "Merdeka": 2.9,
+                        "Bukit Bintang": 2.7,
+                        "Tun Razak Exchange": 2.7,
+                        "Cochrane": 2.4,
+                        "Maluri": 2.2,
+                        "Taman Pertama": 1.8,
+                        "Taman Midah": 1.7,
+                        "Taman Mutiara": 1.2,
+                        "Taman Connaught": 0.8,
+                        "Taman Suntex": 1.4,
+                        "Sri Raya": 1.8,
+                        "Bandar Tun Hussein Onn": 2,
+                        "Batu Sebelas Cheras": 2.2,
+                        "Bukit Dukung": 2.6,
+                        "Sungai Jernih": 3,
+                        "Stadium Kajang": 3.1,
+                        "Kajang": 3.4
+                    }
+                },
+                {
+                    "From": "Taman Suntex",
+                    "To": {
+                        "Sungai Buloh": 4.5,
+                        "Kampung Selamat": 4.4,
+                        "Kwasa Damansara": 4.1,
+                        "Kwasa Sentral": 4,
+                        "Kota Damansara": 3.7,
+                        "Surian": 3.6,
+                        "Mutiara Damansara": 3.4,
+                        "Bandar Utama": 3.3,
+                        "Taman Tun Dr Ismail": 3.8,
+                        "Phileo Damansara": 3.6,
+                        "Pusat Bandar Damansara": 3.3,
+                        "Semantan": 3.7,
+                        "Muzium Negara": 3.2,
+                        "Pasar Seni": 3.5,
+                        "Merdeka": 3.3,
+                        "Bukit Bintang": 3.1,
+                        "Tun Razak Exchange": 2.9,
+                        "Cochrane": 2.6,
+                        "Maluri": 2.7,
+                        "Taman Pertama": 2.3,
+                        "Taman Midah": 2.1,
+                        "Taman Mutiara": 1.8,
+                        "Taman Connaught": 1.4,
+                        "Taman Suntex": 0.8,
+                        "Sri Raya": 1.2,
+                        "Bandar Tun Hussein Onn": 1.6,
+                        "Batu Sebelas Cheras": 1.8,
+                        "Bukit Dukung": 2.1,
+                        "Sungai Jernih": 2.6,
+                        "Stadium Kajang": 2.7,
+                        "Kajang": 3
+                    }
+                },
+                {
+                    "From": "Sri Raya",
+                    "To": {
+                        "Sungai Buloh": 4.60,
+                        "Kampung Selamat": 4.5,
+                        "Kwasa Damansara": 4.3,
+                        "Kwasa Sentral": 4.1,
+                        "Kota Damansara": 3.9,
+                        "Surian": 3.7,
+                        "Mutiara Damansara": 3.6,
+                        "Bandar Utama": 3.4,
+                        "Taman Tun Dr Ismail": 3.2,
+                        "Phileo Damansara": 3.8,
+                        "Pusat Bandar Damansara": 3.5,
+                        "Semantan": 3.3,
+                        "Muzium Negara": 3.4,
+                        "Pasar Seni": 3.3,
+                        "Merdeka": 3.2,
+                        "Bukit Bintang": 3.4,
+                        "Tun Razak Exchange": 3.1,
+                        "Cochrane": 2.9,
+                        "Maluri": 2.7,
+                        "Taman Pertama": 2.6,
+                        "Taman Midah": 2.4,
+                        "Taman Mutiara": 2,
+                        "Taman Connaught": 1.8,
+                        "Taman Suntex": 1.2,
+                        "Sri Raya": 0.8,
+                        "Bandar Tun Hussein Onn": 1.3,
+                        "Batu Sebelas Cheras": 1.5,
+                        "Bukit Dukung": 1.8,
+                        "Sungai Jernih": 2.5,
+                        "Stadium Kajang": 2.7,
+                        "Kajang": 2.7
+                    }
+                },
+                {
+                    "From": "Bandar Tun Hussein Onn",
+                    "To": {
+                        "Sungai Buloh": 4.8,
+                        "Kampung Selamat": 4.6,
+                        "Kwasa Damansara": 4.4,
+                        "Kwasa Sentral": 4.3,
+                        "Kota Damansara": 4,
+                        "Surian": 3.9,
+                        "Mutiara Damansara": 3.7,
+                        "Bandar Utama": 3.6,
+                        "Taman Tun Dr Ismail": 3.4,
+                        "Phileo Damansara": 3.2,
+                        "Pusat Bandar Damansara": 3.7,
+                        "Semantan": 3.5,
+                        "Muzium Negara": 3.7,
+                        "Pasar Seni": 3.5,
+                        "Merdeka": 3.4,
+                        "Bukit Bintang": 3.2,
+                        "Tun Razak Exchange": 3.4,
+                        "Cochrane": 3.2,
+                        "Maluri": 3,
+                        "Taman Pertama": 2.7,
+                        "Taman Midah": 2.8,
+                        "Taman Mutiara": 2.4,
+                        "Taman Connaught": 2,
+                        "Taman Suntex": 1.6,
+                        "Sri Raya": 1.3,
+                        "Bandar Tun Hussein Onn": 0.8,
+                        "Batu Sebelas Cheras": 1.1,
+                        "Bukit Dukung": 1.5,
+                        "Sungai Jernih": 2.2,
+                        "Stadium Kajang": 2.3,
+                        "Kajang": 2.7
+                    }
+                },
+                {
+                    "From": "Batu Sebelas Cheras",
+                    "To": {
+                        "Sungai Buloh": 4.8,
+                        "Kampung Selamat": 4.7,
+                        "Kwasa Damansara": 4.5,
+                        "Kwasa Sentral": 4.4,
+                        "Kota Damansara": 4.1,
+                        "Surian": 4,
+                        "Mutiara Damansara": 3.8,
+                        "Bandar Utama": 3.6,
+                        "Taman Tun Dr Ismail": 3.5,
+                        "Phileo Damansara": 3.3,
+                        "Pusat Bandar Damansara": 3.8,
+                        "Semantan": 3.6,
+                        "Muzium Negara": 3.2,
+                        "Pasar Seni": 3.6,
+                        "Merdeka": 3.5,
+                        "Bukit Bintang": 3.3,
+                        "Tun Razak Exchange": 3.1,
+                        "Cochrane": 3.3,
+                        "Maluri": 3.2,
+                        "Taman Pertama": 2.8,
+                        "Taman Midah": 2.7,
+                        "Taman Mutiara": 2.6,
+                        "Taman Connaught": 2.2,
+                        "Taman Suntex": 1.8,
+                        "Sri Raya": 1.5,
+                        "Bandar Tun Hussein Onn": 1.1,
+                        "Batu Sebelas Cheras": 0.8,
+                        "Bukit Dukung": 1.3,
+                        "Sungai Jernih": 2,
+                        "Stadium Kajang": 2.2,
+                        "Kajang": 2.5
+                    }
+                },
+                {
+                    "From": "Bukit Dukung",
+                    "To": {
+                        "Sungai Buloh": 5,
+                        "Kampung Selamat": 4.9,
+                        "Kwasa Damansara": 4.6,
+                        "Kwasa Sentral": 4.5,
+                        "Kota Damansara": 4.3,
+                        "Surian": 4.1,
+                        "Mutiara Damansara": 3.9,
+                        "Bandar Utama": 3.8,
+                        "Taman Tun Dr Ismail": 3.6,
+                        "Phileo Damansara": 3.5,
+                        "Pusat Bandar Damansara": 3.2,
+                        "Semantan": 3.1,
+                        "Muzium Negara": 3.5,
+                        "Pasar Seni": 3.3,
+                        "Merdeka": 3.8,
+                        "Bukit Bintang": 3.6,
+                        "Tun Razak Exchange": 3.4,
+                        "Cochrane": 3.2,
+                        "Maluri": 3.1,
+                        "Taman Pertama": 3.2,
+                        "Taman Midah": 3,
+                        "Taman Mutiara": 2.7,
+                        "Taman Connaught": 2.6,
+                        "Taman Suntex": 2.1,
+                        "Sri Raya": 1.8,
+                        "Bandar Tun Hussein Onn": 1.5,
+                        "Batu Sebelas Cheras": 1.3,
+                        "Bukit Dukung": 0.8,
+                        "Sungai Jernih": 1.7,
+                        "Stadium Kajang": 1.8,
+                        "Kajang": 2.1
+                    }
+                },
+                {
+                    "From": "Sungai Jernih",
+                    "To": {
+                        "Sungai Buloh": 5.30,
+                        "Kampung Selamat": 5.2,
+                        "Kwasa Damansara": 4.9,
+                        "Kwasa Sentral": 4.8,
+                        "Kota Damansara": 4.6,
+                        "Surian": 4.4,
+                        "Mutiara Damansara": 4.2,
+                        "Bandar Utama": 4.1,
+                        "Taman Tun Dr Ismail": 3.9,
+                        "Phileo Damansara": 3.8,
+                        "Pusat Bandar Damansara": 3.5,
+                        "Semantan": 3.4,
+                        "Muzium Negara": 3.1,
+                        "Pasar Seni": 3.7,
+                        "Merdeka": 3.6,
+                        "Bukit Bintang": 3.5,
+                        "Tun Razak Exchange": 3.3,
+                        "Cochrane": 3.7,
+                        "Maluri": 3.6,
+                        "Taman Pertama": 3.3,
+                        "Taman Midah": 3.1,
+                        "Taman Mutiara": 3.3,
+                        "Taman Connaught": 3,
+                        "Taman Suntex": 2.6,
+                        "Sri Raya": 2.5,
+                        "Bandar Tun Hussein Onn": 2.2,
+                        "Batu Sebelas Cheras": 2,
+                        "Bukit Dukung": 1.7,
+                        "Sungai Jernih": 0.8,
+                        "Stadium Kajang": 1.1,
+                        "Kajang": 1.4
+                    }
+                },
+                {
+                    "From": "Stadium Kajang",
+                    "To": {
+                        "Sungai Buloh": 5.40,
+                        "Kampung Selamat": 5.2,
+                        "Kwasa Damansara": 5,
+                        "Kwasa Sentral": 4.9,
+                        "Kota Damansara": 4.6,
+                        "Surian": 4.5,
+                        "Mutiara Damansara": 4.3,
+                        "Bandar Utama": 4.2,
+                        "Taman Tun Dr Ismail": 4,
+                        "Phileo Damansara": 3.9,
+                        "Pusat Bandar Damansara": 3.6,
+                        "Semantan": 3.5,
+                        "Muzium Negara": 3.2,
+                        "Pasar Seni": 3.8,
+                        "Merdeka": 3.7,
+                        "Bukit Bintang": 3.6,
+                        "Tun Razak Exchange": 3.4,
+                        "Cochrane": 3.3,
+                        "Maluri": 3.7,
+                        "Taman Pertama": 3.4,
+                        "Taman Midah": 3.3,
+                        "Taman Mutiara": 3.4,
+                        "Taman Connaught": 3.1,
+                        "Taman Suntex": 2.7,
+                        "Sri Raya": 2.7,
+                        "Bandar Tun Hussein Onn": 2.3,
+                        "Batu Sebelas Cheras": 2.2,
+                        "Bukit Dukung": 1.8,
+                        "Sungai Jernih": 1.1,
+                        "Stadium Kajang": 0.8,
+                        "Kajang": 1.2
+                    }
+                },
+                {
+                    "From": "Kajang",
+                    "To": {
+                        "Sungai Buloh": 5.5,
+                        "Kampung Selamat": 5.4,
+                        "Kwasa Damansara": 5.1,
+                        "Kwasa Sentral": 5,
+                        "Kota Damansara": 4.8,
+                        "Surian": 4.6,
+                        "Mutiara Damansara": 4.4,
+                        "Bandar Utama": 4.3,
+                        "Taman Tun Dr Ismail": 4.1,
+                        "Phileo Damansara": 4,
+                        "Pusat Bandar Damansara": 3.7,
+                        "Semantan": 3.6,
+                        "Muzium Negara": 3.3,
+                        "Pasar Seni": 3.2,
+                        "Merdeka": 3.2,
+                        "Bukit Bintang": 3.8,
+                        "Tun Razak Exchange": 3.6,
+                        "Cochrane": 3.4,
+                        "Maluri": 3.3,
+                        "Taman Pertama": 3.6,
+                        "Taman Midah": 3.5,
+                        "Taman Mutiara": 3.2,
+                        "Taman Connaught": 3.4,
+                        "Taman Suntex": 3,
+                        "Sri Raya": 2.7,
+                        "Bandar Tun Hussein Onn": 2.7,
+                        "Batu Sebelas Cheras": 2.5,
+                        "Bukit Dukung": 2.1,
+                        "Sungai Jernih": 1.4,
+                        "Stadium Kajang": 1.2,
+                        "Kajang": 0.8
+                    }
+                }
+            ]
+
+            // Find the fare price
+            var farePrice = 0.0;
+
+            // Check if the "from" station exists in the fare array
+            var fromStation = fare.find(station => station.From === from);
+
+            if (fromStation) {
+                // Check if the "to" station exists in the "To" property of the "from" station
+                farePrice = fromStation.To[to];
+
+                if (farePrice === undefined) {
+                    console.log("Destination station not found in the fare list.");
+                } else {
+                    console.log(`Fare from ${from} to ${to}: ${farePrice}`);
+                }
+
+                // Update input price before disc
+                inputPrice.value = farePrice;
+
+            } else {
+                console.log("Origin station not found in the fare list.");
+            }
+        }
+
+        // on select from station input change
+        selectFrom.addEventListener('change', function () {
+            console.log("SelectFrom changed to: ", selectFrom.value);
+
+            calculateFare(selectFrom.value, selectTo.value)
+        });
+    });
+</script>

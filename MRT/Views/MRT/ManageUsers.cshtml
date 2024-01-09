@@ -1,0 +1,77 @@
+﻿@model MRT.Controllers.MRTController.MultipleUserViewModel
+
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<h3 class="mb-2">MRT Ticketing System</h3>
+
+<nav class="navbar navbar-expand-lg navbar-light mb-3" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" asp-action="Home" asp-route-userId="@Model.LoggedInUser.UserId">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Profile" asp-route-userId="@Model.LoggedInUser.UserId">Profile</a>
+                </li>
+                @if (Model.LoggedInUser.IsAdmin)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-action="ManageUsers" asp-route-userId="@Model.LoggedInUser.UserId">Manage Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="ManageBookings" asp-route-userId="@Model.LoggedInUser.UserId">Manage Bookings</a>
+                    </li>
+                }
+            </ul>
+            <a class="text-danger my-2 my-sm-0" asp-action="Index">Log out</a>
+        </div>
+    </div>
+</nav>
+
+<h5>Manage Users</h5>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.SuccessMessage
+    </div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Email</th>
+            <th scope="col">Name</th>
+            <th scope="col">Identity Card/Passport Number</th>
+            <th scope="col">Type</th>
+            <th scope="col">Is Admin</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.UserList)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => user.Email)</td>
+                <td>@Html.DisplayFor(modelItem => user.Name)</td>
+                <td>@Html.DisplayFor(modelItem => user.IdentityCard)</td>
+                <td>@Html.DisplayFor(modelItem => user.Type)</td>
+                <td>@(user.IsAdmin ? "Yes" : "No")</td>
+                <td>
+                    <a class="btn btn-primary" asp-action="ViewUser" asp-route-loggedInUserId="@Model.LoggedInUser.UserId" asp-route-userId="@user.UserId">
+                        View
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

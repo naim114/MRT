@@ -16,13 +16,13 @@
                 <li class="nav-item">
                     <a class="nav-link active" asp-action="Profile" asp-route-userId="@Model.UserId">Profile</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">My Tickets</a>
-                </li>
                 @if (Model.IsAdmin)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="ManageUsers">Manage Users</a>
+                        <a class="nav-link" asp-action="ManageUsers" asp-route-userId="@Model.UserId">Manage Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="ManageBookings" asp-route-userId="@Model.UserId">Manage Bookings</a>
                     </li>
                 }
             </ul>
@@ -31,60 +31,60 @@
     </div>
 </nav>
 
-<div class="container">
-    @if (ViewBag.ErrorMessage != null)
-    {
-        <div class="alert alert-danger" role="alert">
-            @ViewBag.ErrorMessage
-        </div>
-    }
-    @if (ViewBag.SuccessMessage != null)
-    {
-        <div class="alert alert-success" role="alert">
-            @ViewBag.SuccessMessage
-        </div>
-    }
+<h5>Profile</h5>
 
-    <form asp-action="Profile">
-        <input asp-for="UserId" value="@Html.ValueFor(x => x.UserId)" type="text" hidden>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label asp-for="Email" class="form-label">Email address</label>
-                <input asp-for="Email" value="@Html.ValueFor(x => x.Email)" type="email" class="form-control" required>
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="col-md-6">
-                <label asp-for="Name" class="form-label">Name</label>
-                <input asp-for="Name" value="@Html.ValueFor(x => x.Name)" type="text" class="form-control" required>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label asp-for="IdentityCard" class="form-label">Identity Card/Passport Number</label>
-                <input asp-for="IdentityCard" value="@Html.ValueFor(x => x.IdentityCard)" type="text" class="form-control" required>
-                <span asp-validation-for="IdentityCard" class="text-danger"></span>
-            </div>
-            <div class="col-md-6">
-                <label asp-for="Password" class="form-label">Password</label>
-                <input asp-for="Password" value="@Html.ValueFor(x => x.Password)" type="password" class="form-control" required>
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-        </div>
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.SuccessMessage
+    </div>
+}
 
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label asp-for="Type" class="form-label">User Type</label>
-                <select asp-for="Type" class="form-select" asp-for="Type">
-                    <option value="">Normal</option>
-                    <option value="senior">Senior citizens (50% Discount)</option>
-                    <option value="disabled">Disabled (60% Discount)</option>
-                    <option value="students">Students (40% Discount)</option>
-                </select>
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
+<form asp-action="Profile">
+    <input asp-for="UserId" value="@Html.ValueFor(x => x.UserId)" type="text" hidden>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="Email" class="form-label">Email address</label>
+            <input asp-for="Email" value="@Html.ValueFor(x => x.Email)" type="email" class="form-control" required>
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
+        <div class="col-md-6">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" value="@Html.ValueFor(x => x.Name)" type="text" class="form-control" required>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="IdentityCard" class="form-label">Identity Card/Passport Number</label>
+            <input asp-for="IdentityCard" value="@Html.ValueFor(x => x.IdentityCard)" type="text" class="form-control" required>
+            <span asp-validation-for="IdentityCard" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Password" class="form-label">Password</label>
+            <input asp-for="Password" value="@Html.ValueFor(x => x.Password)" type="password" class="form-control" required>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
-    </form>
-</div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="Type" class="form-label">User Type</label>
+            <select asp-for="Type" class="form-select" asp-for="Type">
+                <option value="">Normal</option>
+                <option value="senior">Senior citizens (50% Discount)</option>
+                <option value="disabled">Disabled (60% Discount)</option>
+                <option value="students">Students (40% Discount)</option>
+            </select>
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</form>

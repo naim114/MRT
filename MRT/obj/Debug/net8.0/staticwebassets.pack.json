@@ -193,6 +193,10 @@
       "PackagePath": "staticwebassets\\image\\mrtlogo.png"
     },
     {
+      "Id": "C:\\Users\\naimm\\source\\repos\\MRT\\MRT\\wwwroot\\image\\table.jpg",
+      "PackagePath": "staticwebassets\\image\\table.jpg"
+    },
+    {
       "Id": "C:\\Users\\naimm\\source\\repos\\MRT\\MRT\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

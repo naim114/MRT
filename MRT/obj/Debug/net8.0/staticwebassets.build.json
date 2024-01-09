@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Oc+PgeYr1/mhrAAD3PO5nweeBiIuO8Ci9lrAqrvWWdw=",
+  "Hash": "5ZUJ5FgFpiu035MVBOrynpdKzcUlU2Eo5Tqko0LNNyc=",
   "Source": "MRT",
   "BasePath": "_content/MRT",
   "Mode": "Default",
@@ -946,6 +946,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\image\\mrtlogo.png"
+    },
+    {
+      "Identity": "C:\\Users\\naimm\\source\\repos\\MRT\\MRT\\wwwroot\\image\\table.jpg",
+      "SourceId": "MRT",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\naimm\\source\\repos\\MRT\\MRT\\wwwroot\\",
+      "BasePath": "_content/MRT",
+      "RelativePath": "image/table.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\image\\table.jpg"
     },
     {
       "Identity": "C:\\Users\\naimm\\source\\repos\\MRT\\MRT\\wwwroot\\js\\site.js",

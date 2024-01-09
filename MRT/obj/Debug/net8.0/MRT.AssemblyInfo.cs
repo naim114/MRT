@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MRT")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+38d196ecbef3b0ae3f88daea4cc6a451bd114048")]
 [assembly: System.Reflection.AssemblyProductAttribute("MRT")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MRT")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

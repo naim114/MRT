@@ -1,0 +1,76 @@
+﻿@model MRT.Controllers.MRTController.SingleUserViewModel
+
+@{
+    ViewData["Title"] = "View User";
+}
+
+<h3 class="mb-2">MRT Ticketing System</h3>
+
+<nav class="navbar navbar-expand-lg navbar-light mb-3" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" asp-action="Home" asp-route-userId="@Model.LoggedInUser.UserId">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Profile" asp-route-userId="@Model.LoggedInUser.UserId">Profile</a>
+                </li>
+                @if (Model.LoggedInUser.IsAdmin)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-action="ManageUsers" asp-route-userId="@Model.LoggedInUser.UserId">Manage Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="ManageBookings" asp-route-userId="@Model.LoggedInUser.UserId">Manage Bookings</a>
+                    </li>
+                }
+            </ul>
+            <a class="text-danger my-2 my-sm-0" asp-action="Index">Log out</a>
+        </div>
+    </div>
+</nav>
+
+<h5>View User Profile</h5>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.SuccessMessage
+    </div>
+}
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Email address</label>
+        <input value="@Html.ValueFor(x => x.TargetUser.Email)" type="email" class="form-control" readonly>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Name</label>
+        <input value="@Html.ValueFor(x => x.TargetUser.Name)" type="text" class="form-control" readonly>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Identity Card/Passport Number</label>
+        <input value="@Html.ValueFor(x => x.TargetUser.IdentityCard)" type="text" class="form-control" readonly>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Password</label>
+        <input value="@Html.ValueFor(x => x.TargetUser.Password)" type="password" class="form-control" readonly>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Type</label>
+        <input value="@Html.ValueFor(x => x.TargetUser.Type)" type="text" class="form-control" readonly>
+    </div>
+</div>
+

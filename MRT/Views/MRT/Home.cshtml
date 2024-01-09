@@ -16,13 +16,13 @@
                 <li class="nav-item">
                     <a class="nav-link" asp-action="Profile" asp-route-userId="@Model.UserId">Profile</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">My Tickets</a>
-                </li>
                 @if (Model.IsAdmin)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="ManageUsers">Manage Users</a>
+                        <a class="nav-link" asp-action="ManageUsers" asp-route-userId="@Model.UserId">Manage Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="ManageBookings" asp-route-userId="@Model.UserId">Manage Bookings</a>
                     </li>
                 }
             </ul>
@@ -32,3 +32,39 @@
 </nav>
 
 <h5>Welcome @Html.DisplayFor(x => x.Name)!</h5>
+
+<p>View all your booking below. Add booking by clicking on top right button.</p>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.SuccessMessage
+    </div>
+}
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+    <a class="btn btn-primary" asp-action="AddBooking" asp-route-userId="@Model.UserId">Add Booking</a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Booking Id</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Ticket Type</th>
+            <th scope="col">Price Before Discount</th>
+            <th scope="col">Discount</th>
+            <th scope="col">Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>

@@ -13,6 +13,17 @@ namespace MRT.Controllers
             this.configuration = config;
         }
 
+        public class MultipleUserViewModel
+        {
+            public User LoggedInUser { get; set; }
+            public IList<User> UserList { get; set; }
+        }
+        public class SingleUserViewModel
+        {
+            public User LoggedInUser { get; set; }
+            public User TargetUser { get; set; }
+        }
+
         // GET: MRTController
         // Login
         public ActionResult Index()
@@ -90,6 +101,7 @@ namespace MRT.Controllers
             //}
         }
 
+        // Get all user
         IList<User> GetUserList()
         {
             IList<User> userList = new List<User>();
@@ -131,6 +143,7 @@ namespace MRT.Controllers
             return userList;
         }
 
+        // Get single user by id
         public User? GetUserById(int userId)
         {
             IList<User> userList = GetUserList();
@@ -263,6 +276,72 @@ namespace MRT.Controllers
             ViewBag.SuccessMessage = "Profile updated!";
 
             return View("Profile", user);
+        }
+
+        // Manage User - View all user
+        public ActionResult ManageUsers(int userId)
+        {
+            User? user = GetUserById(userId);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "Please log in.";
+                return View("Index");
+            }
+
+            IList<User> userList = GetUserList();
+
+            MultipleUserViewModel viewModel = new MultipleUserViewModel
+            {
+                LoggedInUser = user,
+                UserList = userList
+            };
+
+            return View(viewModel);
+        }
+
+        // View User - View profile invidually
+        [HttpGet]
+        public ActionResult ViewUser(int loggedInUserId, int userId)
+        {
+            User? loggedInUser = GetUserById(loggedInUserId);
+
+            if (loggedInUser == null)
+            {
+                ViewBag.ErrorMessage = "Please log in.";
+                return View("Index");
+            }
+
+            User? user = GetUserById(userId);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "Please log in.";
+                return View("ManageUsers", loggedInUser);
+            }
+
+            SingleUserViewModel viewModel = new SingleUserViewModel
+            {
+                LoggedInUser = loggedInUser,
+                TargetUser = user
+            };
+
+            return View(viewModel);
+        }
+
+        // Add Booking view
+        [HttpGet]
+        public ActionResult AddBooking(int userId)
+        {
+            User? user = GetUserById(userId);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "Please log in.";
+                return View("Index");
+            }
+
+            return View(user);
         }
     }
 }

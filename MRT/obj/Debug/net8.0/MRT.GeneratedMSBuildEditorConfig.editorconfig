@@ -34,6 +34,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/naimm/source/repos/MRT/MRT/Views/MRT/AddBooking.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTVJUXEFkZEJvb2tpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/naimm/source/repos/MRT/MRT/Views/MRT/Home.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTVJUXEhvbWUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -42,12 +46,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTVJUXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/naimm/source/repos/MRT/MRT/Views/MRT/ManageUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTVJUXE1hbmFnZVVzZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/naimm/source/repos/MRT/MRT/Views/MRT/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTVJUXFByb2ZpbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/naimm/source/repos/MRT/MRT/Views/MRT/SignUp.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTVJUXFNpZ25VcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/naimm/source/repos/MRT/MRT/Views/MRT/ViewUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTVJUXFZpZXdVc2VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/naimm/source/repos/MRT/MRT/Views/Shared/Error.cshtml]

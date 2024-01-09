@@ -227,3 +227,4 @@ C:\Users\naimm\source\repos\MRT\MRT\obj\Debug\net8.0\refint\MRT.dll
 C:\Users\naimm\source\repos\MRT\MRT\obj\Debug\net8.0\MRT.pdb
 C:\Users\naimm\source\repos\MRT\MRT\obj\Debug\net8.0\MRT.genruntimeconfig.cache
 C:\Users\naimm\source\repos\MRT\MRT\obj\Debug\net8.0\ref\MRT.dll
+C:\Users\naimm\source\repos\MRT\MRT\obj\Debug\net8.0\MRT.sourcelink.json
