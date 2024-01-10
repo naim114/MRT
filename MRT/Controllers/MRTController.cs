@@ -24,6 +24,12 @@ namespace MRT.Controllers
             public User TargetUser { get; set; }
         }
 
+        public class BookingViewModel
+        {
+            public User User { get; set; }
+            public Booking Booking { get; set; }
+        }
+
         // GET: MRTController
         // Login
         public ActionResult Index()
@@ -341,7 +347,54 @@ namespace MRT.Controllers
                 return View("Index");
             }
 
-            return View(user);
+            // Create a new instance of Booking
+            Booking newBooking = new Booking();
+
+            // Pass both User and Booking to the view
+            BookingViewModel viewModel = new BookingViewModel
+            {
+                User = user,
+                Booking = newBooking
+            };
+
+            return View(viewModel);
+        }
+
+        // Insert Booking
+        [HttpPost]
+        public ActionResult AddBooking(Booking booking)
+        {
+            User? user = GetUserById(booking.UserId);
+
+            SqlConnection conn = new SqlConnection(configuration.GetConnectionString("MRTConnStr"));
+            SqlCommand cmd = new SqlCommand("spInsertBooking", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@UserId", booking.UserId);
+            cmd.Parameters.AddWithValue("@StationFrom", booking.StationFrom);
+            cmd.Parameters.AddWithValue("@StationTo", booking.StationTo);
+            cmd.Parameters.AddWithValue("@IsOneWay", booking.IsOneWay);
+            cmd.Parameters.AddWithValue("@ListPrice", booking.ListPrice);
+            cmd.Parameters.AddWithValue("@DiscountPercentage", booking.DiscountPercentage);
+            cmd.Parameters.AddWithValue("@TotalPrice", booking.TotalPrice);
+
+            // try
+            // {
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            // }
+            // catch
+            // {
+            // RedirectToAction("Error");
+            // }
+            // finally
+            // {
+            conn.Close();
+            // }
+
+            ViewBag.SuccessMessage = "Booking success!";
+
+            return View("Home", user);
         }
     }
 }

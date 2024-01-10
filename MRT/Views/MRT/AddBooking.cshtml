@@ -1,5 +1,4 @@
-﻿@model MRT.Models.User
-
+﻿@model MRT.Controllers.MRTController.BookingViewModel
 @{
     ViewData["Title"] = "Add Booking";
 }
@@ -11,18 +10,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" asp-action="Home" asp-route-userId="@Model.UserId">Home</a>
+                    <a class="nav-link active" aria-current="page" asp-action="Home" asp-route-userId="@Model.User.UserId">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-action="Profile" asp-route-userId="@Model.UserId">Profile</a>
+                    <a class="nav-link" asp-action="Profile" asp-route-userId="@Model.User.UserId">Profile</a>
                 </li>
-                @if (Model.IsAdmin)
+                @if (Model.User.IsAdmin)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="ManageUsers" asp-route-userId="@Model.UserId">Manage Users</a>
+                        <a class="nav-link" asp-action="ManageUsers" asp-route-userId="@Model.User.UserId">Manage Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="ManageBookings" asp-route-userId="@Model.UserId">Manage Bookings</a>
+                        <a class="nav-link" asp-action="ManageBookings" asp-route-userId="@Model.User.UserId">Manage Bookings</a>
                     </li>
                 }
             </ul>
@@ -48,112 +47,118 @@
     </div>
 }
 
-<div class="row mb-3">
-    <div class="col-md-6">
-        <label class="form-label">From Station</label>
-        <select id="selectFrom" class="form-select" required>
-            <option selected value="Sungai Buloh">Sungai Buloh</option>
-            <option value="Kampung Selamat">Kampung Selamat</option>
-            <option value="Kwasa Damansara">Kwasa Damansara</option>
-            <option value="Kwasa Sentral">Kwasa Sentral</option>
-            <option value="Kota Damansara">Kota Damansara </option>
-            <option value="Surian">Surian</option>
-            <option value="Mutiara Damansara">Mutiara Damansara</option>
-            <option value="Bandar Utama">Bandar Utama</option>
-            <option value="Taman Tun Dr Ismail">Taman Tun Dr Ismail</option>
-            <option value="Phileo Damansara">Phileo Damansara</option>
-            <option value="Pusat Bandar Damansara">Pusat Bandar Damansara</option>
-            <option value="Semantan">Semantan</option>
-            <option value="Muzium Negara">Muzium Negara</option>
-            <option value="Pasar Seni">Pasar Seni</option>
-            <option value="Merdeka">Merdeka</option>
-            <option value="Bukit">Bukit Bintang</option>
-            <option value="Tun Razak Exchange">Tun Razak Exchange</option>
-            <option value="Cochrane">Cochrane</option>
-            <option value="Maluri">Maluri</option>
-            <option value="Taman Pertama">Taman Pertama</option>
-            <option value="Taman Midah">Taman Midah</option>
-            <option value="Taman Mutiara">Taman Mutiara</option>
-            <option value="Taman Connaught">Taman Connaught</option>
-            <option value="Taman Suntex">Taman Suntex</option>
-            <option value="Sri Raya">Sri Raya</option>
-            <option value="Bandar Tun Hussein Onn">Bandar Tun Hussein Onn</option>
-            <option value="Batu Sebelas Cheras">Batu Sebelas Cheras</option>
-            <option value="Bukit Dukung">Bukit Dukung</option>
-            <option value="Sungai Jernih">Sungai Jernih</option>
-            <option value="Stadium Kajang">Stadium Kajang </option>
-            <option value="Kajang">Kajang</option>
-        </select>
+<form asp-action="AddBooking">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="Booking.UserId" type="text" value="@Model.User.UserId" hidden/>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="Booking.StationFrom" class="form-label">From Station</label>
+            <select asp-for="Booking.StationFrom" id="selectFrom" class="form-select" required>
+                <option selected value="Sungai Buloh">Sungai Buloh</option>
+                <option value="Kampung Selamat">Kampung Selamat</option>
+                <option value="Kwasa Damansara">Kwasa Damansara</option>
+                <option value="Kwasa Sentral">Kwasa Sentral</option>
+                <option value="Kota Damansara">Kota Damansara </option>
+                <option value="Surian">Surian</option>
+                <option value="Mutiara Damansara">Mutiara Damansara</option>
+                <option value="Bandar Utama">Bandar Utama</option>
+                <option value="Taman Tun Dr Ismail">Taman Tun Dr Ismail</option>
+                <option value="Phileo Damansara">Phileo Damansara</option>
+                <option value="Pusat Bandar Damansara">Pusat Bandar Damansara</option>
+                <option value="Semantan">Semantan</option>
+                <option value="Muzium Negara">Muzium Negara</option>
+                <option value="Pasar Seni">Pasar Seni</option>
+                <option value="Merdeka">Merdeka</option>
+                <option value="Bukit">Bukit Bintang</option>
+                <option value="Tun Razak Exchange">Tun Razak Exchange</option>
+                <option value="Cochrane">Cochrane</option>
+                <option value="Maluri">Maluri</option>
+                <option value="Taman Pertama">Taman Pertama</option>
+                <option value="Taman Midah">Taman Midah</option>
+                <option value="Taman Mutiara">Taman Mutiara</option>
+                <option value="Taman Connaught">Taman Connaught</option>
+                <option value="Taman Suntex">Taman Suntex</option>
+                <option value="Sri Raya">Sri Raya</option>
+                <option value="Bandar Tun Hussein Onn">Bandar Tun Hussein Onn</option>
+                <option value="Batu Sebelas Cheras">Batu Sebelas Cheras</option>
+                <option value="Bukit Dukung">Bukit Dukung</option>
+                <option value="Sungai Jernih">Sungai Jernih</option>
+                <option value="Stadium Kajang">Stadium Kajang </option>
+                <option value="Kajang">Kajang</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Booking.StationTo" class="form-label">To Station</label>
+            <select asp-for="Booking.StationTo" id="selectTo" class="form-select" required>
+                <option selected value="Sungai Buloh">Sungai Buloh</option>
+                <option value="Kampung Selamat">Kampung Selamat</option>
+                <option value="Kwasa Damansara">Kwasa Damansara</option>
+                <option value="Kwasa Sentral">Kwasa Sentral</option>
+                <option value="Kota Damansara">Kota Damansara </option>
+                <option value="Surian">Surian</option>
+                <option value="Mutiara Damansara">Mutiara Damansara</option>
+                <option value="Bandar Utama">Bandar Utama</option>
+                <option value="Taman Tun Dr Ismail">Taman Tun Dr Ismail</option>
+                <option value="Phileo Damansara">Phileo Damansara</option>
+                <option value="Pusat Bandar Damansara">Pusat Bandar Damansara</option>
+                <option value="Semantan">Semantan</option>
+                <option value="Muzium Negara">Muzium Negara</option>
+                <option value="Pasar Seni">Pasar Seni</option>
+                <option value="Merdeka">Merdeka</option>
+                <option value="Bukit">Bukit Bintang</option>
+                <option value="Tun Razak Exchange">Tun Razak Exchange</option>
+                <option value="Cochrane">Cochrane</option>
+                <option value="Maluri">Maluri</option>
+                <option value="Taman Pertama">Taman Pertama</option>
+                <option value="Taman Midah">Taman Midah</option>
+                <option value="Taman Mutiara">Taman Mutiara</option>
+                <option value="Taman Connaught">Taman Connaught</option>
+                <option value="Taman Suntex">Taman Suntex</option>
+                <option value="Sri Raya">Sri Raya</option>
+                <option value="Bandar Tun Hussein Onn">Bandar Tun Hussein Onn</option>
+                <option value="Batu Sebelas Cheras">Batu Sebelas Cheras</option>
+                <option value="Bukit Dukung">Bukit Dukung</option>
+                <option value="Sungai Jernih">Sungai Jernih</option>
+                <option value="Stadium Kajang">Stadium Kajang </option>
+                <option value="Kajang">Kajang</option>
+            </select>
+        </div>
     </div>
-    <div class="col-md-6">
-        <label class="form-label">To Station</label>
-        <select id="selectTo" class="form-select" required>
-            <option selected value="Sungai Buloh">Sungai Buloh</option>
-            <option value="Kampung Selamat">Kampung Selamat</option>
-            <option value="Kwasa Damansara">Kwasa Damansara</option>
-            <option value="Kwasa Sentral">Kwasa Sentral</option>
-            <option value="Kota Damansara">Kota Damansara </option>
-            <option value="Surian">Surian</option>
-            <option value="Mutiara Damansara">Mutiara Damansara</option>
-            <option value="Bandar Utama">Bandar Utama</option>
-            <option value="Taman Tun Dr Ismail">Taman Tun Dr Ismail</option>
-            <option value="Phileo Damansara">Phileo Damansara</option>
-            <option value="Pusat Bandar Damansara">Pusat Bandar Damansara</option>
-            <option value="Semantan">Semantan</option>
-            <option value="Muzium Negara">Muzium Negara</option>
-            <option value="Pasar Seni">Pasar Seni</option>
-            <option value="Merdeka">Merdeka</option>
-            <option value="Bukit">Bukit Bintang</option>
-            <option value="Tun Razak Exchange">Tun Razak Exchange</option>
-            <option value="Cochrane">Cochrane</option>
-            <option value="Maluri">Maluri</option>
-            <option value="Taman Pertama">Taman Pertama</option>
-            <option value="Taman Midah">Taman Midah</option>
-            <option value="Taman Mutiara">Taman Mutiara</option>
-            <option value="Taman Connaught">Taman Connaught</option>
-            <option value="Taman Suntex">Taman Suntex</option>
-            <option value="Sri Raya">Sri Raya</option>
-            <option value="Bandar Tun Hussein Onn">Bandar Tun Hussein Onn</option>
-            <option value="Batu Sebelas Cheras">Batu Sebelas Cheras</option>
-            <option value="Bukit Dukung">Bukit Dukung</option>
-            <option value="Sungai Jernih">Sungai Jernih</option>
-            <option value="Stadium Kajang">Stadium Kajang </option>
-            <option value="Kajang">Kajang</option>
-        </select>
-    </div>
-</div>
 
-<div class="row mb-3">
-    <div class="col-md-6">
-        <label class="form-label">Ticket Type</label>
-        <select id="selectTicketType" class="form-select" required>
-            <option selected value="true">One Way</option>
-            <option value="false">Returning</option>
-        </select>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="Booking.IsOneWay" class="form-label">Ticket Type</label>
+            <select asp-for="Booking.IsOneWay" id="selectTicketType" class="form-select" required>
+                <option selected value="true">One Way</option>
+                <option value="false">Returning</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Booking.ListPrice" class="form-label">Price Before Discount (RM)</label>
+            <input asp-for="Booking.ListPrice" step="0.01" id="inputPrice" type="number" class="form-control" readonly>
+        </div>
     </div>
-    <div class="col-md-6">
-        <label class="form-label">Price Before Discount (RM)</label>
-        <input id="inputPrice" type="number" class="form-control" readonly>
-    </div>
-</div>
 
-<div class="row mb-3">
-    <div class="col-md-6">
-        <label class="form-label">Discount (%)</label>
-        <input value="" id="inputDiscount" type="number" class="form-control" readonly>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="Booking.DiscountPercentage" class="form-label">Discount (%)</label>
+            <input asp-for="Booking.DiscountPercentage" id="inputDiscount" type="number" class="form-control" readonly>
+            <input value="@Model.User.Type" id="inputUserType" type="text" hidden>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Booking.TotalPrice"class="form-label">Total Price (RM)</label>
+            <input asp-for="Booking.TotalPrice" step="0.01" id="inputTotalPrice" type="number" class="form-control" readonly>
+        </div>
     </div>
-    <div class="col-md-6">
-        <label class="form-label">Total Price (RM)</label>
-        <input id="inputTotalPrice" type="number" class="form-control" readonly>
-    </div>
-</div>
 
-<button type="submit" class="btn btn-primary mt-3">Submit</button>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</form>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         console.log("Hello");
 
+        // DECLARATION
         // from and to select input station
         var from = "Sungai Buloh";
         var to = "Sungai Buloh";
@@ -165,23 +170,41 @@
         selectTo.value = to;
 
         // ticket type select input
-        var isOneWay = true;
         let selectTicketType = document.getElementById("selectTicketType");
+        selectTicketType.value = "true";
 
         // price input
         var price = 0.8;
         let inputPrice = document.getElementById("inputPrice");
-        inputPrice.value = price;
+        inputPrice.value = price.toFixed(2);
 
         // discount input
         var discountPrice = 0.0;
+        
+        let discount = 0.0;
+      
         let inputDiscount = document.getElementById("inputDiscount");
-        inputDiscount.value = discountPrice;
+        
+        let userType = document.getElementById("inputUserType");
+        console.log("User Type: ", userType.value);
+
+        if (userType.value == "senior") {
+            discount = 0.5;
+        } else if (userType.value == "disabled") {
+            discount = 0.6;
+        } else if (userType.value == "students") {
+            discount = 0.4;
+        }
+
+        inputDiscount.value = discount * 100;
 
         // total price input
         var totalPrice = 0.0;
         let inputTotalPrice = document.getElementById("inputTotalPrice");
+        inputTotalPrice.value = totalPrice.toFixed(2);
+        inputTotalPrice.value = (inputPrice.value - (discount * inputPrice.value)).toFixed(2);
 
+        // CALCULATION FUNCTION
         // fare calculation function
         function calculateFare(from, to){
             // Fare Price
@@ -1320,19 +1343,62 @@
                     console.log(`Fare from ${from} to ${to}: ${farePrice}`);
                 }
 
-                // Update input price before disc
-                inputPrice.value = farePrice;
+                // Check if its one way ticket
+                if (selectTicketType.value == "true") {
+                    // Update input price before disc
+                    inputPrice.value = farePrice.toFixed(2);
+
+                    // Discount calculation
+                    inputTotalPrice.value = (inputPrice.value - (discount * inputPrice.value)).toFixed(2);
+                } else {
+                    // Update input price before disc
+                    inputPrice.value = (farePrice * 2).toFixed(2);
+
+                    // Discount calculation
+                    inputTotalPrice.value = (inputPrice.value - (discount * inputPrice.value)).toFixed(2);
+                }
 
             } else {
                 console.log("Origin station not found in the fare list.");
             }
         }
 
-        // on select from station input change
+        // ON CHANGE FUNCTION
+        // on change input select from station
         selectFrom.addEventListener('change', function () {
             console.log("SelectFrom changed to: ", selectFrom.value);
 
-            calculateFare(selectFrom.value, selectTo.value)
+            // make it one way ticket if its in the same station
+            if (selectFrom.value == selectTo.value) {
+                selectTicketType.value = "true";
+            }
+
+            calculateFare(selectFrom.value, selectTo.value);
         });
+
+        // on change input select to station
+        selectTo.addEventListener('change', function () {
+            console.log("SelectTo changed to: ", selectTo.value);
+
+            // make it one way ticket if its in the same station
+            if (selectFrom.value == selectTo.value) {
+                selectTicketType.value = "true";
+            }
+
+            calculateFare(selectFrom.value, selectTo.value);
+        });
+
+        // on change input select ticket type
+        selectTicketType.addEventListener('change', function () {
+            console.log("SelectTicketType changed to: ", selectTicketType.value);
+
+            // make it one way ticket if its in the same station
+            if (selectFrom.value == selectTo.value) {
+                selectTicketType.value = "true";
+            }
+
+            calculateFare(selectFrom.value, selectTo.value);
+        });
+
     });
 </script>
