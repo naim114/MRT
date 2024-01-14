@@ -1,4 +1,4 @@
-﻿@model MRT.Models.User
+﻿@model MRT.Controllers.MRTController.BookingsViewModel
 
 @{
     ViewData["Title"] = "Home";
@@ -11,18 +11,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" asp-action="Home" asp-route-userId="@Model.UserId">Home</a>
+                    <a class="nav-link active" aria-current="page" asp-action="Home" asp-route-userId="@Model.User.UserId">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-action="Profile" asp-route-userId="@Model.UserId">Profile</a>
+                    <a class="nav-link" asp-action="Profile" asp-route-userId="@Model.User.UserId">Profile</a>
                 </li>
-                @if (Model.IsAdmin)
+                @if (Model.User.IsAdmin)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="ManageUsers" asp-route-userId="@Model.UserId">Manage Users</a>
+                        <a class="nav-link" asp-action="ManageUsers" asp-route-userId="@Model.User.UserId">Manage Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="ManageBookings" asp-route-userId="@Model.UserId">Manage Bookings</a>
+                        <a class="nav-link" asp-action="ManageBookings" asp-route-userId="@Model.User.UserId">Manage Bookings</a>
                     </li>
                 }
             </ul>
@@ -31,7 +31,7 @@
     </div>
 </nav>
 
-<h5>Welcome @Html.DisplayFor(x => x.Name)!</h5>
+<h5>Welcome @Html.DisplayFor(x => x.User.Name)!</h5>
 
 <p>View all your booking below. Add booking by clicking on top right button.</p>
 
@@ -49,7 +49,7 @@
 }
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
-    <a class="btn btn-primary" asp-action="AddBooking" asp-route-userId="@Model.UserId">Add Booking</a>
+    <a class="btn btn-primary" asp-action="AddBooking" asp-route-userId="@Model.User.UserId">Add Booking</a>
 </div>
 
 <table class="table table-striped">
@@ -59,12 +59,38 @@
             <th scope="col">From</th>
             <th scope="col">To</th>
             <th scope="col">Ticket Type</th>
-            <th scope="col">Price Before Discount</th>
-            <th scope="col">Discount</th>
-            <th scope="col">Total Price</th>
+            <th scope="col">Price Before Discount (RM)</th>
+            <th scope="col">Discount (%)</th>
+            <th scope="col">Total Price (RM)</th>
+            <th scope="col">Action</th>
         </tr>
     </thead>
     <tbody>
-        
+        @foreach (var booking in Model.Bookings)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => booking.BookingId)</td>
+                <td>@Html.DisplayFor(modelItem => booking.StationFrom)</td>
+                <td>@Html.DisplayFor(modelItem => booking.StationTo)</td>
+                <td>
+                    @if (booking.IsOneWay)
+                    {
+                        <text>One Way</text>
+                    }
+                    else
+                    {
+                        <text>Return</text>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => booking.ListPrice)</td>
+                <td>@Html.DisplayFor(modelItem => booking.DiscountPercentage)</td>
+                <td>@Html.DisplayFor(modelItem => booking.TotalPrice)</td>
+                <td>
+                    <a class="btn btn-primary" asp-action="">
+                        View
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

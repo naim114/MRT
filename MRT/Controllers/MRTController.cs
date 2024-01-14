@@ -30,6 +30,12 @@ namespace MRT.Controllers
             public Booking Booking { get; set; }
         }
 
+        public class BookingsViewModel
+        {
+            public User User { get; set; }
+            public IList<Booking> Bookings { get; set; }
+        }
+
         // GET: MRTController
         // Login
         public ActionResult Index()
@@ -169,6 +175,83 @@ namespace MRT.Controllers
             return user;
         }
 
+        // Get all bookings
+        IList<Booking> GetBookingList()
+        {
+            IList<Booking> bookingList = new List<Booking>();
+            SqlConnection conn = new SqlConnection(configuration.GetConnectionString("MRTConnStr"));
+
+            string sql = @"SELECT * FROM Bookings";
+
+            SqlCommand cmd = new SqlCommand(sql, conn);
+
+            //try
+            //{
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                bookingList.Add(new Booking()
+                {
+                    BookingId = reader.GetInt32(0),
+                    UserId = reader.GetInt32(1),
+                    StationFrom = reader.GetString(2),
+                    StationTo = reader.GetString(3),
+                    IsOneWay = reader.IsDBNull(4) ? false : Convert.ToBoolean(reader.GetValue(4)),
+                    ListPrice = reader.GetDouble(5),
+                    DiscountPercentage = reader.GetDouble(6),
+                    TotalPrice = reader.GetDouble(7)
+                });
+            }
+            //}
+            //catch
+            //{
+            //    RedirectToAction("Error");
+            //}
+            //finally
+            //{
+            conn.Close();
+            //}
+
+            return bookingList;
+        }
+
+        // Get single booking by id
+        public Booking? GetBookingById(int bookingId)
+        {
+            IList<Booking> bookingList = GetBookingList();
+
+            if (bookingList == null)
+            {
+                return null;
+            }
+
+            var booking = bookingList.FirstOrDefault(x => x.BookingId == bookingId);
+
+            if (booking == null)
+            {
+                return null;
+            }
+
+            return booking;
+        }
+
+        // Get bookings by user id
+        public IList<Booking> GetBookingsByUserId(int userId)
+        {
+            IList<Booking> bookingList = GetBookingList();
+
+            if (bookingList == null)
+            {
+                return null;
+            }
+
+            // Use LINQ to filter bookings by userId
+            var userBookings = bookingList.Where(b => b.UserId == userId).ToList();
+
+            return userBookings;
+        }
 
         // Login
         [HttpPost]
@@ -186,7 +269,9 @@ namespace MRT.Controllers
 
             if (user != null)
             {
-                return View("Home", user);
+                //return View("Home", user);
+                return RedirectToAction("Home", new { userId = user.UserId });
+
                 //return RedirectToAction("Home", user.UserId);
             }
             else
@@ -207,7 +292,15 @@ namespace MRT.Controllers
                 return View("Index");
             }
 
-            return View(user);
+            IList<Booking> bookingList = GetBookingsByUserId(userId);
+
+            BookingsViewModel viewModel = new BookingsViewModel
+            {
+                User = user,
+                Bookings = bookingList
+            };
+
+            return View(viewModel);
         }
 
         // Go to profile view
@@ -394,7 +487,9 @@ namespace MRT.Controllers
 
             ViewBag.SuccessMessage = "Booking success!";
 
-            return View("Home", user);
+            //return View("Home", user);
+            return RedirectToAction("Home", new { userId = user.UserId });
+
         }
     }
 }
