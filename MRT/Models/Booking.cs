@@ -23,7 +23,8 @@ namespace MRT.Models
         public bool IsOneWay { get; set; }
 
         [Required]
-        [Display(Name = "Price Before Discount (RM)")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Single Ticket Price (RM)")]
         public double ListPrice { get; set; }
 
         [Required]
@@ -31,7 +32,15 @@ namespace MRT.Models
         public double DiscountPercentage { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         [Display(Name = "Total Price (RM)")]
         public double TotalPrice { get; set; }
+
+        [Display(Name = "Created At")]
+        public DateTime CreatedAt { get; set; }
+
+        [Display(Name = "Quantity")]
+        public int Quantity { get; set; }
+
     }
 }

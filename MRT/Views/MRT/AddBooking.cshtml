@@ -134,19 +134,26 @@
             </select>
         </div>
         <div class="col-md-6">
-            <label asp-for="Booking.ListPrice" class="form-label">Price Before Discount (RM)</label>
-            <input asp-for="Booking.ListPrice" step="0.01" id="inputPrice" type="number" class="form-control" readonly>
+            <label asp-for="Booking.ListPrice" class="form-label">Single Ticket Price (RM)</label>
+            <input asp-for="Booking.ListPrice" step="0.01" id="inputPrice" type="number" class="form-control" value="1" readonly>
         </div>
     </div>
 
     <div class="row mb-3">
         <div class="col-md-6">
+            <label asp-for="Booking.Quantity" class="form-label">Quantity</label>
+            <input asp-for="Booking.Quantity" min="1" value="1" id="inputQuantity" type="number" class="form-control" required>
+        </div>
+        <div class="col-md-6">
             <label asp-for="Booking.DiscountPercentage" class="form-label">Discount (%)</label>
             <input asp-for="Booking.DiscountPercentage" id="inputDiscount" type="number" class="form-control" readonly>
             <input value="@Model.User.Type" id="inputUserType" type="text" hidden>
         </div>
+    </div>
+
+    <div class="row mb-3">
         <div class="col-md-6">
-            <label asp-for="Booking.TotalPrice"class="form-label">Total Price (RM)</label>
+            <label asp-for="Booking.TotalPrice" class="form-label">Total Price (RM)</label>
             <input asp-for="Booking.TotalPrice" step="0.01" id="inputTotalPrice" type="number" class="form-control" readonly>
         </div>
     </div>
@@ -178,6 +185,10 @@
         let inputPrice = document.getElementById("inputPrice");
         inputPrice.value = price.toFixed(2);
 
+        // quantity
+        let inputQuantity = document.getElementById("inputQuantity");
+        inputQuantity.value = 1;
+
         // discount input
         var discountPrice = 0.0;
         
@@ -201,8 +212,8 @@
         // total price input
         var totalPrice = 0.0;
         let inputTotalPrice = document.getElementById("inputTotalPrice");
-        inputTotalPrice.value = totalPrice.toFixed(2);
-        inputTotalPrice.value = (inputPrice.value - (discount * inputPrice.value)).toFixed(2);
+
+        inputTotalPrice.value = ((inputPrice.value * inputQuantity.value) - (discount * (inputPrice.value * inputQuantity.value))).toFixed(2);
 
         // CALCULATION FUNCTION
         // fare calculation function
@@ -1349,13 +1360,13 @@
                     inputPrice.value = farePrice.toFixed(2);
 
                     // Discount calculation
-                    inputTotalPrice.value = (inputPrice.value - (discount * inputPrice.value)).toFixed(2);
+                    inputTotalPrice.value = ((inputPrice.value * inputQuantity.value) - (discount * (inputPrice.value * inputQuantity.value))).toFixed(2);
                 } else {
                     // Update input price before disc
                     inputPrice.value = (farePrice * 2).toFixed(2);
 
                     // Discount calculation
-                    inputTotalPrice.value = (inputPrice.value - (discount * inputPrice.value)).toFixed(2);
+                    inputTotalPrice.value = ((inputPrice.value * inputQuantity.value) - (discount * (inputPrice.value * inputQuantity.value))).toFixed(2);
                 }
 
             } else {
@@ -1391,6 +1402,18 @@
         // on change input select ticket type
         selectTicketType.addEventListener('change', function () {
             console.log("SelectTicketType changed to: ", selectTicketType.value);
+
+            // make it one way ticket if its in the same station
+            if (selectFrom.value == selectTo.value) {
+                selectTicketType.value = "true";
+            }
+
+            calculateFare(selectFrom.value, selectTo.value);
+        });
+
+        // on change input quantity
+        inputQuantity.addEventListener('change', function () {
+            console.log("inputQuantity changed to: ", inputQuantity.value);
 
             // make it one way ticket if its in the same station
             if (selectFrom.value == selectTo.value) {

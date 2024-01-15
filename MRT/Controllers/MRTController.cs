@@ -201,7 +201,9 @@ namespace MRT.Controllers
                     IsOneWay = reader.IsDBNull(4) ? false : Convert.ToBoolean(reader.GetValue(4)),
                     ListPrice = reader.GetDouble(5),
                     DiscountPercentage = reader.GetDouble(6),
-                    TotalPrice = reader.GetDouble(7)
+                    TotalPrice = reader.GetDouble(7),
+                    CreatedAt = reader.GetDateTime(8),
+                    Quantity = reader.GetInt32(9)
                 });
             }
             //}
@@ -415,7 +417,7 @@ namespace MRT.Controllers
 
             if (user == null)
             {
-                ViewBag.ErrorMessage = "Please log in.";
+                ViewBag.ErrorMessage = "User not found.";
                 return View("ManageUsers", loggedInUser);
             }
 
@@ -470,6 +472,7 @@ namespace MRT.Controllers
             cmd.Parameters.AddWithValue("@ListPrice", booking.ListPrice);
             cmd.Parameters.AddWithValue("@DiscountPercentage", booking.DiscountPercentage);
             cmd.Parameters.AddWithValue("@TotalPrice", booking.TotalPrice);
+            cmd.Parameters.AddWithValue("@Quantity", booking.Quantity);
 
             // try
             // {
@@ -490,6 +493,133 @@ namespace MRT.Controllers
             //return View("Home", user);
             return RedirectToAction("Home", new { userId = user.UserId });
 
+        }
+
+        // View all booking
+        public ActionResult ManageBookings(int userId)
+        {
+            User? user = GetUserById(userId);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "Please log in.";
+                return View("Index");
+            }
+
+            if (!user.IsAdmin)
+            {
+                ViewBag.ErrorMessage = "Not an admin.";
+                return RedirectToAction("Home", new { userId = user.UserId });
+            }
+
+            IList<Booking> bookingList = GetBookingList();
+
+            BookingsViewModel viewModel = new BookingsViewModel
+            {
+                User = user,
+                Bookings = bookingList
+            };
+
+            return View(viewModel);
+        }
+
+        // View Booking
+        public ActionResult ViewBooking(int userId, int bookingId)
+        {
+            User? user = GetUserById(userId);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "Please log in.";
+                return View("Index");
+            }
+
+            Booking? booking = GetBookingById(bookingId);
+
+            if (booking == null)
+            {
+                ViewBag.ErrorMessage = "Booking not found.";
+                return RedirectToAction("Home", new { userId = user.UserId });
+            }
+
+            BookingViewModel viewModel = new BookingViewModel
+            {
+                User = user,
+                Booking = booking
+            };
+
+            return View(viewModel);
+        }
+
+        // View Delete Booking
+        [HttpGet]
+        public ActionResult DeleteBooking(int userId, int bookingId)
+        {
+            User? user = GetUserById(userId);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "Please log in.";
+                return View("Index");
+            }
+
+            Booking? booking = GetBookingById(bookingId);
+
+            if (booking == null)
+            {
+                ViewBag.ErrorMessage = "Booking not found.";
+                return RedirectToAction("Home", new { userId = user.UserId });
+            }
+
+            BookingViewModel viewModel = new BookingViewModel
+            {
+                User = user,
+                Booking = booking
+            };
+
+            return View(viewModel);
+        }
+
+        // View Delete Booking
+        [HttpPost, ActionName("DeleteBooking")]
+        public ActionResult ConfirmDeleteBooking(int userId, int bookingId)
+        {
+            User? user = GetUserById(userId);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "Please log in.";
+                return View("Index");
+            }
+
+            Booking? booking = GetBookingById(bookingId);
+
+            if (booking == null)
+            {
+                ViewBag.ErrorMessage = "Booking not found.";
+                return RedirectToAction("Home", new { userId = user.UserId });
+            }
+
+            SqlConnection conn = new SqlConnection(configuration.GetConnectionString("MRTConnStr"));
+            SqlCommand cmd = new SqlCommand("spDeleteBooking", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookingId", bookingId);
+
+            //try
+            //{
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            conn.Close();
+
+            return RedirectToAction("Home", new { userId = user.UserId });
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
+            //finally
+            //{
+            //}
         }
     }
 }

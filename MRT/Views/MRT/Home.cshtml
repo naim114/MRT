@@ -55,11 +55,13 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th scope="col">Transaction Date</th>
             <th scope="col">Booking Id</th>
             <th scope="col">From</th>
             <th scope="col">To</th>
             <th scope="col">Ticket Type</th>
-            <th scope="col">Price Before Discount (RM)</th>
+            <th scope="col">Single Ticket Price (RM)</th>
+            <th scope="col">Quantity</th>
             <th scope="col">Discount (%)</th>
             <th scope="col">Total Price (RM)</th>
             <th scope="col">Action</th>
@@ -69,6 +71,7 @@
         @foreach (var booking in Model.Bookings)
         {
             <tr>
+                <td>@Html.DisplayFor(modelItem => booking.CreatedAt)</td>
                 <td>@Html.DisplayFor(modelItem => booking.BookingId)</td>
                 <td>@Html.DisplayFor(modelItem => booking.StationFrom)</td>
                 <td>@Html.DisplayFor(modelItem => booking.StationTo)</td>
@@ -83,11 +86,15 @@
                     }
                 </td>
                 <td>@Html.DisplayFor(modelItem => booking.ListPrice)</td>
+                <td>@Html.DisplayFor(modelItem => booking.Quantity)</td>
                 <td>@Html.DisplayFor(modelItem => booking.DiscountPercentage)</td>
                 <td>@Html.DisplayFor(modelItem => booking.TotalPrice)</td>
                 <td>
-                    <a class="btn btn-primary" asp-action="">
+                    <a class="btn btn-primary" asp-action="ViewBooking" asp-route-userId="@Model.User.UserId" asp-route-bookingId="@booking.BookingId">
                         View
+                    </a>
+                    <a class="btn btn-danger" asp-action="DeleteBooking" asp-route-userId="@Model.User.UserId" asp-route-bookingId="@booking.BookingId">
+                        Delete
                     </a>
                 </td>
             </tr>
