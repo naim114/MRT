@@ -89,9 +89,12 @@
                 <td>@Html.DisplayFor(modelItem => booking.Quantity)</td>
                 <td>@Html.DisplayFor(modelItem => booking.DiscountPercentage)</td>
                 <td>@Html.DisplayFor(modelItem => booking.TotalPrice)</td>
-                <td>
+                <td class="text-nowrap">
                     <a class="btn btn-primary" asp-action="ViewBooking" asp-route-userId="@Model.User.UserId" asp-route-bookingId="@booking.BookingId">
                         View
+                    </a>
+                    <a class="btn btn-secondary" asp-action="SendMailBooking" asp-route-userId="@Model.User.UserId" asp-route-bookingId="@booking.BookingId">
+                        Send Email
                     </a>
                     <a class="btn btn-danger" asp-action="DeleteBooking" asp-route-userId="@Model.User.UserId" asp-route-bookingId="@booking.BookingId">
                         Delete

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MRT.Models;
+using MVC1006.MailSettings;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -620,6 +621,54 @@ namespace MRT.Controllers
             //finally
             //{
             //}
+        }
+
+        public IActionResult SendMailBooking(int userId, int bookingId)
+        {
+            User? user = GetUserById(userId);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "Please log in.";
+                return View("Index");
+            }
+
+            Booking? booking = GetBookingById(bookingId);
+
+            if (booking == null)
+            {
+                ViewBag.ErrorMessage = "Booking not found.";
+                return RedirectToAction("Home", new { userId = user.UserId });
+            }
+
+            var subject = "Ticket Booking Information #" + booking.BookingId;
+            var body = "Transaction Date: " + booking.CreatedAt + "<br>" +
+                "Booking Id: " + booking.BookingId + "<br>" +
+                "From: Station " + booking.StationFrom + "<br>" +
+                "To: Station " + booking.StationTo + "<br>" +
+                "Ticket Type:" + (booking.IsOneWay ? "One Way" : "Returning") + "<br>" +
+                "Single Ticket Price (RM):  " + booking.ListPrice.ToString("0.00") + "<br>" +
+                "Quantity:  " + booking.Quantity + "<br>" +
+                "Discount (%):  " + booking.DiscountPercentage + "<br>" +
+                "Total Price (RM):  " + booking.TotalPrice.ToString("0.00");
+
+            //return body;
+
+            var mail = new Mail(configuration);
+
+            if (mail.Send(configuration["Gmail:Username"], user.Email, subject, body))
+            {
+                ViewBag.Message = "Mail successfully sent to " + user.Email;
+                ViewBag.Body = body;
+            }
+            else
+            {
+                ViewBag.Message = "Sent Mail Failed";
+                ViewBag.Body = "";
+            }
+
+            return View();
+
         }
     }
 }
